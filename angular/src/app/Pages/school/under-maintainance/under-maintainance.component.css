@@ -1,0 +1,30 @@
+.body {
+	background-image: url("/assets/images/background.jpeg");
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	min-height: 100vh;
+	font-family: 'Roboto', sans-serif;
+}
+
+.container_ {
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+
+.centreBox {
+	min-width: 320px;
+	width: 30%;
+	height: 60%;
+	margin: auto;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+}
+
+.md-form {
+	margin-top: 1.5rem;
+}

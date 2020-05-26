@@ -1,0 +1,128 @@
+<div class="container" id="top-section">
+  <h3 class="text-center font-weight-bold text-uppercase py-4">Setup Sample Data</h3>
+  <div class="card-body">
+    <div *ngIf="disabled">
+      <div class="row">
+        <span>
+          <h5>Data is being generated please come check after some time</h5>
+        </span>
+      </div>
+      <br>
+      <br>
+      <div class="row">
+        <span class="text-center w-100">
+          <button type="button" mdbBtn color="primary" rounded="true" class="justify-content-end"
+            (click)="checkStatus()">
+            Check Status</button>
+        </span>
+      </div>
+    </div>
+    <div *ngIf="!disabled">
+      <div>
+        <div class="row">
+          <span>
+            <p><u>Note: Do not use higher numbers, the higher the values the higher the time taken for sample data
+                creation</u></p>
+            <p>Sample Values: City: 1, School: 1, Class: 2, Section: 2, Subject: 8, Staff: 10, Student: 30, Period: 8
+            </p>
+          </span>
+        </div>
+        <br>
+        <div class="row  my-auto mt-2">
+          <div class="w-25 mx-auto">
+            <div>
+              <label>City</label>
+              <input type="number" [(ngModel)]="city" class="form-control" id="search" mdbInput>
+            </div>
+          </div>
+          <div class="w-25 mx-auto">
+            <div>
+              <label>School</label>
+              <input type="number" [(ngModel)]="school" class="form-control" id="search" mdbInput>
+            </div>
+          </div>
+          <div class="w-25 mx-auto">
+            <div>
+              <label>Class</label>
+              <input type="number" [(ngModel)]="classs" class="form-control" id="search" mdbInput>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row   my-auto  mt-2">
+          <div class="w-25 mx-auto">
+            <div>
+              <label>Section</label>
+              <input type="number" [(ngModel)]="section" class="form-control" id="search" mdbInput>
+            </div>
+          </div>
+          <div class="w-25 mx-auto">
+            <div>
+              <label>Subject</label>
+              <input type="number" [(ngModel)]="subject" class="form-control" id="search" mdbInput>
+            </div>
+          </div>
+          <div class="w-25 mx-auto">
+            <div>
+              <label>Staff</label>
+              <input type="number" [(ngModel)]="staff" class="form-control" id="search" mdbInput>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row   my-auto  mt-2">
+          <div class="w-25 mx-auto">
+            <div>
+              <label>Student per section</label>
+              <input type="number" [(ngModel)]="student" class="form-control" id="search" mdbInput>
+            </div>
+          </div>
+          <div class="w-25 mx-auto">
+            <div>
+              <label>Period</label>
+              <input type="number" [(ngModel)]="period" class="form-control" id="search" mdbInput>
+            </div>
+          </div>
+          <div class="w-25 mx-auto mt-4 text-center">
+            <span>
+              <button type="button" mdbBtn color="primary" rounded="true" class="justify-content-end"
+                (click)="createSampleData()">
+                Create Data</button>
+            </span>
+          </div>
+        </div>
+
+      </div>
+      <br>
+      <hr>
+      <br>
+      <div class=" row text-center">
+        <div class="mx-3">
+          <label>City</label>
+          <select class="browser-default custom-select mdb-select md-form" searchable="Search here.."
+            (change)='onCitySelected($event)'>
+            <option value="" hidden selected>Choose your City</option>
+            <option value={{city.id}} *ngFor="let city of cities; let id = index">{{city.city}}</option>
+          </select>
+        </div>
+        <div class="mx-3">
+          <label>School</label>
+          <select class="browser-default custom-select mdb-select  md-form " searchable="Search here.."
+            (change)='onSchoolSelected($event)'>
+            <option value="" hidden selected>Choose your School</option>
+            <option value={{school.id}} *ngFor="let school of schools; let id = index">{{school.schoolName}}
+            </option>
+          </select>
+        </div>
+        <div class="mx-3 mt-3 w-auto my-1">
+          <span>
+            <button type="button" mdbBtn color="primary" rounded="true" class="justify-content-end"
+              (click)="createSampleDataDaily()">
+              Create Data for Daily tasks</button>
+          </span>
+        </div>
+      </div>
+      <br>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,121 @@
+<div class="container" id="top-section">
+  <h3 class="text-center font-weight-bold text-uppercase py-4">Marks</h3>
+  <div class="fixed-action-btn smooth-scroll" style="bottom: 45px; right: 24px;">
+    <a href="#top-section" mdbPageScroll [pageScrollDuration]="750"
+      class="btn-floating btn-large red waves-effect waves-light">
+      <i class="fas fa-arrow-up"></i>
+    </a>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="mx-2" *ngIf="role === 'SUPERUSER'">
+        <label>City</label>
+        <select class="browser-default custom-select mdb-select md-form " searchable="Search here.."
+          (change)='onCitySelected($event)'>
+          <option value="" hidden selected>Choose your City</option>
+          <option value={{city.id}} *ngFor="let city of cities; let id = index">{{city.city}}</option>
+        </select>
+      </div>
+      <div class="mx-2" *ngIf="role === 'SUPERUSER'">
+        <label>School</label>
+        <select class="browser-default custom-select mdb-select  md-form " searchable="Search here.."
+          (change)='onSchoolSelected($event)'>
+          <option value="" hidden selected>Choose School</option>
+          <option value={{school.id}} *ngFor="let school of schools; let id = index">{{school.schoolName}}
+          </option>
+        </select>
+      </div>
+      <div class="mx-2">
+        <label>Class</label>
+        <select class="browser-default custom-select mdb-select  md-form " searchable="Search here.."
+          (change)='onClassSelected($event)'>
+          <option value="" hidden selected>Choose Class</option>
+          <option value={{class.id}} *ngFor="let class of classes; let id = index">{{class.className}}
+          </option>
+        </select>
+      </div>
+      <div class="mx-2">
+        <label>Section</label>
+        <select class="browser-default custom-select mdb-select  md-form " searchable="Search here.."
+          (change)='onSectionSelected($event)'>
+          <option value="" hidden selected>Choose Section</option>
+          <option value={{section.id}} *ngFor="let section of sections; let id = index">{{section.sectionName}}
+          </option>
+        </select>
+      </div>
+      <div class="mx-2">
+        <label>Exam</label>
+        <select class="browser-default custom-select mdb-select md-form " searchable="Search here.."
+          (change)='onExamSelected($event)'>
+          <option value="" hidden selected>Choose Exam</option>
+          <option value={{exam.exam.id}} *ngFor="let exam of examRep; let id = index">{{exam.exam.name}}
+          </option>
+        </select>
+      </div>
+      <div class="mx-2">
+        <label>Subject</label>
+        <select class="browser-default custom-select mdb-select md-form" searchable="Search here.."
+          (change)='onSubjectId($event)'>
+          <option value="" hidden selected>Select Subject</option>
+          <option value={{subject.subjectId}} *ngFor="let subject of subjectClassMap; let id = index">
+            {{subject.subjectName}}
+          </option>
+        </select>
+      </div>
+    </div>
+
+
+    <h3 class="text-center font-weight-bold text-uppercase py-4" *ngIf="examScope === 'School'">Exam: {{ceExamName}}, Scope:
+      {{ceExamScope}}
+    </h3>
+    <h3 class="text-center font-weight-bold text-uppercase py-4" *ngIf="examScope === 'Class'">Exam: {{ceExamName}}, Scope:
+      {{ceExamScope}}, Class: {{ceClassName}}</h3>
+    <h3 class="text-center font-weight-bold text-uppercase py-4" *ngIf="examScope === 'Section'">Exam: {{ceExamName}}, Scope:
+      {{ceExamScope}}, Class: {{ceClassName}}, Section: {{ceSectionName}}</h3>
+
+
+    <h5 class="text-center font-weight-bold text-uppercase py-4" *ngIf="ceExamDate!==''">Date: {{ceExamDate}}, Maximum
+      Marks:
+      {{ceExamMaxMarks}}</h5>
+
+    <div class="row">
+      <div class="w-75 mx-auto">
+        <div class="md-form">
+          <input type="text" [(ngModel)]="searchText" class="form-control" id="search" mdbInput>
+          <label for="search">Search</label>
+        </div>
+      </div>
+      <div class="w-auto mx-auto">
+        <div class="md-form">
+          <span>
+            <button type="button" mdbBtn color="primary" rounded="true" (click)="saveEamTimeTable()"
+              [disabled]="ceSubjectId==0">Save</button>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <table mdbTable class="text-center z-depth-1 align-middle" bordered="true">
+        <thead>
+          <tr>
+            <th class="text-center">Student Id</th>
+            <th class="text-center">Student Name</th>
+            <th class="text-center">Marks</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of marksData| filter:searchText; let i = index">
+            <td> <span>{{data.student.studentId}}</span></td>
+            <td> <span>{{data.student.name}}</span></td>
+            <td class="md-form">
+              <input type="number" min="0" max="ceExamMaxMarks" class="form-control text-center"
+                [(ngModel)]="data.marks.marks" mdInput>
+              <mdb-error class="ml-3 mb-2 text-center" *ngIf="data.marks.marks>ceExamMaxMarks || 0>data.marks.marks">
+                <strong><big>Please enter Marks between 0 and {{ceExamMaxMarks}}</big></strong></mdb-error>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

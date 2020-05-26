@@ -1,0 +1,251 @@
+<div class="container" id="top-section">
+  <h3 class="text-center font-weight-bold text-uppercase py-4">Exam</h3>
+  <div class="fixed-action-btn smooth-scroll" style="bottom: 45px; right: 24px;">
+    <a href="#top-section" mdbPageScroll [pageScrollDuration]="750"
+      class="btn-floating btn-large red waves-effect waves-light">
+      <i class="fas fa-arrow-up"></i>
+    </a>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="mx-3" *ngIf="role === 'SUPERUSER'">
+        <label>City</label>
+        <select class="browser-default custom-select mdb-select md-form " searchable="Search here.."
+          (change)='onCitySelected($event)'>
+          <option value="" hidden selected>Choose your City</option>
+          <option value={{city.id}} *ngFor="let city of cities; let id = index">{{city.city}}</option>
+        </select>
+      </div>
+      <div class="mx-3" *ngIf="role === 'SUPERUSER'">
+        <label>School</label>
+        <select class="browser-default custom-select mdb-select  md-form " searchable="Search here.."
+          (change)='onSchoolSelected($event)'>
+          <option value="" hidden selected>Choose your School</option>
+          <option value={{school.id}} *ngFor="let school of schools; let id = index">{{school.schoolName}}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="w-75 mx-auto">
+        <div class="md-form">
+          <input type="text" [(ngModel)]="searchText" class="form-control" id="search" mdbInput>
+          <label for="search">Search</label>
+        </div>
+      </div>
+      <div class="w-auto mx-auto" *ngIf="role !== 'STUDENT'">
+        <div class="md-form">
+          <span>
+            <button type="button" mdbBtn color="primary" rounded="true" (click)="showCreateExamPopup()"
+              [disabled]="ceSchoolId==0">Add
+              Exam</button>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <table mdbTable class="text-center z-depth-1">
+        <thead>
+          <tr>
+            <th [mdbTableSort]="examRep" sortBy="examName" class="text-center">Name<mdb-icon fas icon="sort"></mdb-icon>
+            </th>
+            <th [mdbTableSort]="examRep" sortBy="className" class="text-center">Class<mdb-icon fas icon="sort">
+              </mdb-icon>
+            </th>
+            <th [mdbTableSort]="examRep" sortBy="sectionName" class="text-center">Section<mdb-icon fas icon="sort">
+              </mdb-icon>
+            </th>
+            <th [mdbTableSort]="examRep" sortBy="scope" class="text-center">Scope<mdb-icon fas icon="sort"></mdb-icon>
+            </th>
+            <th class="text-center">Status
+            </th>
+            <th class="text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let exam of examRep| filter:searchText; let i = index">
+            <td> <span>{{exam.exam.name}}</span></td>
+            <td><span>{{exam.className}}</span></td>
+            <td><span>{{exam.sectionName}}</span></td>
+            <td><span>{{exam.exam.scope}}</span></td>
+            <td>
+              <span *ngIf="exam.exam.completed">Completed</span>
+              <span *ngIf="!exam.exam.completed">Pending</span>
+            </td>
+            <td >
+              <span class="table-remove" *ngIf="role !== 'STUDENT'">
+                <button type="button" mdbBtn color="info" rounded="true" size="sm" class="my-0"
+                  (click)="editExamPopup(exam)" *ngIf="!exam.exam.completed && (role==='SUPERUSER' || role==='ADMIN')">
+                  Edit
+                </button>
+              </span>
+              <span class="table-remove">
+                <button type="button" mdbBtn color="warning" rounded="true" size="sm" class="my-0"
+                  (click)="examTimetablePopup(exam)">TimeTable</button>
+              </span>
+
+              <span class="table-remove" *ngIf="exam.exam.scope === 'School' && role!=='STUDENT'">
+                <button type="button" mdbBtn color="secondary" rounded="true" size="sm" class="my-0"
+                  (click)="marksStatus(exam)">Marks Status</button>
+              </span>
+
+              <span class="table-remove" *ngIf="role==='STUDENT' && exam.exam.scope === 'School'">
+                <button type="button" mdbBtn color="secondary" rounded="true" size="sm" class="my-0"
+                  (click)="marksByStudent(exam)">Marks</button>
+              </span>
+
+              <span class="table-remove">
+                <button type="button" mdbBtn color="danger" rounded="true" size="sm" class="my-0"
+                  (click)="removeConformationPopup(exam) ">Remove</button>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- Create-edit School Popup -->
+<div mdbModal #basicModal="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="basicModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100 font-weight-bold text-center" id="myModalLabel">{{popupTitle}}</h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="mx-3">
+          <div class="md-form">
+            <input type="text" id="examName" [(ngModel)]="ceExamName" name="state" class="form-control" mdbInput>
+            <label for="examName">Exam Name</label>
+            <mdb-error *ngIf="checkIfExamNameIsEmpty()">Input Required</mdb-error>
+          </div>
+        </div>
+        <div class="mx-3">
+          <div class="md-form">
+            <input type="text" id="examDescription" [(ngModel)]="ceExamDescription" name="state" class="form-control"
+              mdbInput>
+            <label for="examDescription">Exam Description</label>
+          </div>
+        </div>
+        <div class="mx-3">
+          <label>Scope</label>
+          <select class="browser-default custom-select mdb-select md-form" searchable="Search here.."
+            (change)='onScopeSelected($event.target.value)' [(ngModel)]='ceScopeSelected'>
+            <option value="disabled" hidden selected>Choose Scope of Exam</option>
+            <option value={{scp.id}} *ngFor="let scp of scope; let id = index">{{scp.label}}
+            </option>
+          </select>
+        </div>
+        <div class="mx-3" *ngIf="scopeSelected === 'Class' || scopeSelected === 'Section'">
+          <label>Class</label>
+          <select class="browser-default custom-select mdb-select  md-form " searchable="Search here.."
+            (change)='onClassSelected($event)' [(ngModel)]='ceClassId' name='classDropdown'>
+            <option value=0 hidden selected>Choose Class</option>
+            <option value={{class.id}} *ngFor="let class of classes; let id = index">{{class.className}}
+            </option>
+          </select>
+        </div>
+        <div class="mx-3" *ngIf="scopeSelected === 'Section'">
+          <label>Section</label>
+          <select class="browser-default custom-select mdb-select  md-form " searchable="Search here.."
+            [(ngModel)]='ceSectionId' name='sectionDropdown'>
+            <option value=0 hidden selected>Choose Section</option>
+            <option value={{section.id}} *ngFor="let section of sections; let id = index">{{section.sectionName}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <br>
+      <div class="modal-footer">
+        <button type="button" rounded="true" mdbBtn color="danger" class="waves-light" aria-label="Close"
+          (click)="basicModal.hide()" mdbWavesEffect>Close</button>
+        <button type="button" rounded="true" mdbBtn color="success" class="relative waves-light" (click)="add()"
+          mdbWavesEffect>Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Create-edit School Popup -->
+
+<!-- Conformation Popup -->
+<div mdbModal #conformationModal="mdbModal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="myBasicModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="conformationModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel">Delete Conformation</h4>
+      </div>
+      <div class="modal-body">
+        <b>Would you like to remove Exam?</b>
+        <br>
+        Once Removed, associated <strong>Marks, Timetable and Exam</strong> will also be removed and cannot be undone
+      </div>
+      <div class="modal-footer">
+        <button type="button" mdbBtn color="danger" class="waves-light" aria-label="Close"
+          (click)="conformationModal.hide()" mdbWavesEffect>Close</button>
+        <button type="button" mdbBtn color="success" class="relative waves-light" mdbWavesEffect (click)="remove()">Yes
+          Remove</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Conformation Popup -->
+
+
+<div mdbModal #marksStatusModal="mdbModal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="myBasicModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="marksStatusModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100 font-weight-bold text-center" id="myModalLabel">Subject Marks Completed Status
+          {{ceExamStatusCompleted}}/{{ceExamStatusPending}}
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div class="md-form">
+          <table mdbTable mdbTableScroll scrollY="true" maxHeight="200" class="text-center z-depth-1 align-middle"
+            bordered="true">
+            <thead>
+              <tr>
+                <th class="text-center">Class</th>
+                <th class="text-center">Section</th>
+                <th class="text-center">Subject</th>
+                <th class="text-center">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let ems of examMarksStatus; let i = index">
+                <td> <span>{{ems.class.className}}</span></td>
+                <td> <span>{{ems.section.sectionName}}</span></td>
+                <td> <span>{{ems.subject.subjectName}}</span></td>
+                <td>
+                  <span *ngIf="ems.subjectStatus.completed">Completed</span>
+                  <span *ngIf="!ems.subjectStatus.completed">Pending</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" rounded="true" mdbBtn color="danger" class="waves-light" aria-label="Close"
+          (click)="marksStatusModal.hide()" mdbWavesEffect>Close</button>
+      </div>
+    </div>
+  </div>
+</div>

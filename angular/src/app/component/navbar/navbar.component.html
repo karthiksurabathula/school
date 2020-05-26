@@ -1,0 +1,444 @@
+<div class="dark-font bc-icons-2">
+  <mdb-breadcrumb customClass="black-text indigo lighten-4">
+    <mdb-breadcrumb-item class="active">
+      <mdb-icon class="mr-1"></mdb-icon> 
+    </mdb-breadcrumb-item>
+  </mdb-breadcrumb>
+</div>
+
+<!-- <body class="mdb-skin"> -->
+<!--Double navigation-->
+<header class="view">
+
+  <!-- Sidebar navigation -->
+  <!-- <mdb-side-nav #sidenav [fixed]="false" class="mdb-color darken-4"> -->
+    <mdb-side-nav #sidenav [fixed]="false" class="primary-color-dark text-white ">
+    <links>
+      <!-- Side navigation links -->
+      <mdb-navbar-brand>
+        <li class="ml-2">
+          <div class="waves-light mt-4 ml-5">
+            <a [routerLink]="'/home'"><img src="/assets/images/icon.png" class="flex-center"></a>
+          </div>
+        </li>
+      </mdb-navbar-brand>
+      <li>
+        <br>
+        <ul class="collapsible collapsible-accordion">
+          <mdb-accordion [multiple]="false" aria-multiselectable="false">
+
+            <mdb-accordion-item class="no-collase">
+              <mdb-accordion-item-head mdbWavesEffect> <a [routerLink]="'/home'" mdbWavesEffect>
+                  <mdb-icon fas icon="angle-double-right"></mdb-icon>Home
+                </a>
+              </mdb-accordion-item-head>
+              <mdb-accordion-item-body></mdb-accordion-item-body>
+            </mdb-accordion-item>
+
+            <mdb-accordion-item *ngIf="role === 'SUPERUSER' || role === 'ADMIN' || role === 'TEACHER' ">
+              <mdb-accordion-item-head mdbWavesEffect>
+                <mdb-icon fas icon="angle-double-right"></mdb-icon> Student
+              </mdb-accordion-item-head>
+              <mdb-accordion-item-body>
+                <ul>
+                  <li *ngIf="role === 'SUPERUSER' || role === 'ADMIN' ">
+                    <a [routerLink]="'/student'" mdbWavesEffect>
+                      <mdb-icon fas icon="angle-right"></mdb-icon>Add Student
+                    </a>
+                  </li>
+                  <li>
+                    <a [routerLink]="'/marks-student'" mdbWavesEffect>
+                      <mdb-icon fas icon="angle-right"></mdb-icon>Marks
+                    </a>
+                  </li>
+                  <li>
+                    <a [routerLink]="'/attendance-student'" mdbWavesEffect>
+                      <mdb-icon fas icon="angle-right"></mdb-icon>Attendance
+                    </a>
+                  </li>
+                </ul>
+              </mdb-accordion-item-body>
+            </mdb-accordion-item>
+
+            <mdb-accordion-item *ngIf="role === 'SUPERUSER' || role === 'ADMIN' ">
+              <mdb-accordion-item-head mdbWavesEffect>
+                <mdb-icon fas icon="angle-double-right"></mdb-icon> Staff
+              </mdb-accordion-item-head>
+              <mdb-accordion-item-body>
+                <ul>
+                  <li>
+                    <a [routerLink]="'/staff'" mdbWavesEffect>
+                      <mdb-icon fas icon="angle-right"></mdb-icon>Add Staff
+                    </a>
+                  </li>
+                  <li>
+                    <a [routerLink]="'/subjectClass'" mdbWavesEffect>
+                      <mdb-icon fas icon="angle-right"></mdb-icon>Add Teacher to Subject
+                    </a>
+                  </li>
+                </ul>
+              </mdb-accordion-item-body>
+            </mdb-accordion-item>
+
+
+            <!-- Collapsible link -->
+            <mdb-accordion-item *ngIf="role === 'SUPERUSER' || role === 'ADMIN' || role === 'TEACHER'  ">
+              <mdb-accordion-item-head mdbWavesEffect>
+                <mdb-icon fas icon="angle-double-right"></mdb-icon> Exam
+              </mdb-accordion-item-head>
+              <mdb-accordion-item-body>
+                <ul>
+                  <li>
+                    <a [routerLink]="'/exam'" mdbWavesEffect>
+                      <mdb-icon fas icon="angle-right"></mdb-icon>Create Exam
+                    </a>
+                  </li>
+                  <li>
+                    <a [routerLink]="'/exam-timetable'" mdbWavesEffect>
+                      <mdb-icon fas icon="angle-right"></mdb-icon>Exam Timetable
+                    </a>
+                  </li>
+                  <li>
+                    <a [routerLink]="'/marks-subject'" mdbWavesEffect>
+                      <mdb-icon fas icon="angle-right"></mdb-icon>Add Marks
+                    </a>
+                  </li>
+                </ul>
+              </mdb-accordion-item-body>
+            </mdb-accordion-item>
+
+            <mdb-accordion-item *ngIf="role === 'SUPERUSER' || role === 'ADMIN' ">
+              <mdb-accordion-item-head mdbWavesEffect>
+                <mdb-icon fas icon="angle-double-right"></mdb-icon> Attendance
+              </mdb-accordion-item-head>
+              <mdb-accordion-item-body>
+                <ul>
+                  <li>
+                    <a [routerLink]="'/attendance-tracker'" mdbWavesEffect>
+                      <mdb-icon fas icon="angle-right"></mdb-icon>Attendance Status
+                    </a>
+                  </li>
+                  <li>
+                    <a [routerLink]="'/attendance'" mdbWavesEffect>
+                      <mdb-icon fas icon="angle-right"></mdb-icon>Create Attendance
+                    </a>
+                  </li>
+                </ul>
+              </mdb-accordion-item-body>
+            </mdb-accordion-item>
+
+
+            <mdb-accordion-item class="no-collase" *ngIf="role === 'TEACHER'">
+              <mdb-accordion-item-head mdbWavesEffect> <a [routerLink]="'/attendance'" mdbWavesEffect>
+                  <mdb-icon fas icon="angle-double-right"></mdb-icon>Attendance
+                </a>
+              </mdb-accordion-item-head>
+              <mdb-accordion-item-body></mdb-accordion-item-body>
+            </mdb-accordion-item>
+
+
+            <mdb-accordion-item class="no-collase" *ngIf="role === 'STUDENT' ">
+              <mdb-accordion-item-head mdbWavesEffect> <a [routerLink]="'/exam'" mdbWavesEffect>
+                  <mdb-icon fas icon="angle-double-right"></mdb-icon>Exam
+                </a>
+              </mdb-accordion-item-head>
+              <mdb-accordion-item-body></mdb-accordion-item-body>
+            </mdb-accordion-item>
+
+            <mdb-accordion-item class="no-collase" *ngIf="role === 'STUDENT' ">
+              <mdb-accordion-item-head mdbWavesEffect> <a [routerLink]="'/attendance-student'" mdbWavesEffect>
+                  <mdb-icon fas icon="angle-double-right"></mdb-icon>Attendance
+                </a>
+              </mdb-accordion-item-head>
+              <mdb-accordion-item-body></mdb-accordion-item-body>
+            </mdb-accordion-item>
+
+            <mdb-accordion-item class="no-collase" *ngIf="role !== 'TEACHER'">
+              <mdb-accordion-item-head mdbWavesEffect> <a [routerLink]="'/timetable'" mdbWavesEffect>
+                  <mdb-icon fas icon="angle-double-right"></mdb-icon>Period Time Table
+                </a>
+              </mdb-accordion-item-head>
+              <mdb-accordion-item-body></mdb-accordion-item-body>
+            </mdb-accordion-item>
+
+
+            <mdb-accordion-item *ngIf="role === 'TEACHER'">
+              <mdb-accordion-item-head mdbWavesEffect>
+                <mdb-icon fas icon="angle-double-right"></mdb-icon> Time Table
+              </mdb-accordion-item-head>
+              <mdb-accordion-item-body>
+                <ul>
+                  <li>
+                    <a [routerLink]="'/period-staff'" mdbWavesEffect>
+                      <mdb-icon fas icon="angle-right"></mdb-icon>My Timetable
+                    </a>
+                  </li>
+                  <li>
+                    <a [routerLink]="'/timetable'" mdbWavesEffect>
+                      <mdb-icon fas icon="angle-right"></mdb-icon>Period Time Table
+                    </a>
+                  </li>
+                </ul>
+              </mdb-accordion-item-body>
+            </mdb-accordion-item>
+
+            <mdb-accordion-item class="no-collase">
+              <mdb-accordion-item-head mdbWavesEffect> <a [routerLink]="'/announcement'" mdbWavesEffect>
+                  <mdb-icon fas icon="angle-double-right"></mdb-icon>Announcements
+                </a>
+              </mdb-accordion-item-head>
+              <mdb-accordion-item-body></mdb-accordion-item-body>
+            </mdb-accordion-item>
+
+            <mdb-accordion-item class="no-collase">
+              <mdb-accordion-item-head mdbWavesEffect> <a [routerLink]="'/syllabus'" mdbWavesEffect>
+                  <mdb-icon fas icon="angle-double-right"></mdb-icon>Syllabus Updates
+                </a>
+              </mdb-accordion-item-head>
+              <mdb-accordion-item-body></mdb-accordion-item-body>
+            </mdb-accordion-item>
+
+            
+
+
+            <mdb-accordion-item class="no-collase" *ngIf="role === 'SUPERUSER' || role === 'ADMIN' ">
+              <mdb-accordion-item-head mdbWavesEffect> <a [routerLink]="'/user-management'" mdbWavesEffect>
+                  <mdb-icon fas icon="angle-double-right"></mdb-icon>User Management
+                </a>
+              </mdb-accordion-item-head>
+              <mdb-accordion-item-body></mdb-accordion-item-body>
+            </mdb-accordion-item>
+
+
+            <mdb-accordion-item *ngIf="role === 'SUPERUSER' || role === 'ADMIN' ">
+              <mdb-accordion-item-head mdbWavesEffect>
+                <mdb-icon fas icon="angle-double-right"></mdb-icon> Setup
+              </mdb-accordion-item-head>
+              <mdb-accordion-item-body>
+                <ul>
+                  <li *ngIf="role === 'SUPERUSER'">
+                    <a [routerLink]="'/city'" mdbWavesEffect>
+                      <mdb-icon fas icon="angle-right"></mdb-icon>City
+                    </a>
+                  </li>
+                  <li>
+                    <a [routerLink]="'/school'" mdbWavesEffect>
+                      <mdb-icon fas icon="angle-right"></mdb-icon>School
+                    </a>
+                  </li>
+                  <li>
+                    <a [routerLink]="'/class'" mdbWavesEffect>
+                      <mdb-icon fas icon="angle-right"></mdb-icon>Class
+                    </a>
+                  </li>
+                  <li>
+                    <a [routerLink]="'/section'" mdbWavesEffect>
+                      <mdb-icon fas icon="angle-right"></mdb-icon>Section
+                    </a>
+                  </li>
+                  <li>
+                    <a [routerLink]="'/period'" mdbWavesEffect>
+                      <mdb-icon fas icon="angle-right"></mdb-icon>Period
+                    </a>
+                  </li>
+                  <li>
+                    <a [routerLink]="'/subject'" mdbWavesEffect>
+                      <mdb-icon fas icon="angle-right"></mdb-icon>Subject
+                    </a>
+                  </li>
+                  <li>
+                    <a [routerLink]="'/subjectClass'" mdbWavesEffect>
+                      <mdb-icon fas icon="angle-right"></mdb-icon>Add Subject to Class
+                    </a>
+                  </li>
+                </ul>
+              </mdb-accordion-item-body>
+            </mdb-accordion-item>
+
+            <mdb-accordion-item class="no-collase" *ngIf="role === 'SUPERUSER'">
+              <mdb-accordion-item-head mdbWavesEffect> <a [routerLink]="'/sample-data'" mdbWavesEffect>
+                  <mdb-icon fas icon="angle-double-right"></mdb-icon>Sample Data
+                </a>
+              </mdb-accordion-item-head>
+              <mdb-accordion-item-body></mdb-accordion-item-body>
+            </mdb-accordion-item>
+
+
+          </mdb-accordion>
+        </ul>
+      </li>
+      <!--/. Side navigation links -->
+    </links>
+    <div class="sidenav-bg mask-strong"></div>
+  </mdb-side-nav>
+  <!--/. Sidebar navigation -->
+
+  <!-- Navbar -->
+  <mdb-navbar
+    SideClass="navbar primary-color fixed-top navbar-toggleable-md navbar-expand-lg scrolling-navbar double-nav"
+    [containerInside]="false">
+
+    <navlinks class="navbar-container">
+      <!-- SideNav slide-out button -->
+      <div>
+        <a (click)="sidenav.show()" class="button-collapse hidden-nav-button-collapse mx-0">
+          <mdb-icon fas icon="bars"></mdb-icon>
+        </a>
+      </div>
+      <!--/. SideNav slide-out button -->
+    </navlinks>
+
+
+    <mdb-navbar-brand>
+      <!-- Breadcrumb-->
+      <div class="breadcrumbs breadcrumbs-hidden-nav breadcrumb-dn mr-auto clearfix">
+        <p><b><a [routerLink]="'/home'">School</a></b></p>
+      </div>
+      <!--/. Breadcrumb-->
+    </mdb-navbar-brand>
+
+
+    <navlinks>
+      <ul class="nav navbar-nav nav-flex-icons ml-auto ie-double-nav ie-hidden-double-nav">
+        <li class="nav-item" *ngIf="!(role === 'SUPERUSER') ">
+          <a class="nav-link waves-light" mdbWavesEffect>
+            <mdb-icon fas icon="envelope"></mdb-icon>
+            <span class="clearfix d-none d-sm-inline-block" (click)='showContact()'>Contact</span>
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="role === 'ADMIN' ">
+          <a class="nav-link waves-light" mdbWavesEffect>
+            <mdb-icon far icon="comments"></mdb-icon>
+            <span class="clearfix d-none d-sm-inline-block" (click)="support.show()">Support</span>
+          </a>
+        </li>
+        <li class="nav-item dropdown btn-group" dropdown>
+          <a dropdownToggle type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
+            <mdb-icon fas icon="user"></mdb-icon>
+            Account
+          </a>
+          <div class="dropdown-menu dropdown-primary dropdown-menu-right" role="menu">
+            <a class="dropdown-item" [routerLink]="'/restPassword'">Reset Password</a>
+            <a class="dropdown-item" (click)="logout()">Logout</a>
+          </div>
+        </li>
+      </ul>
+    </navlinks>
+  </mdb-navbar>
+  <!--/. Navbar -->
+
+</header>
+<!--/.Double navigation-->
+
+
+
+<div mdbModal #basicModal="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="basicModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100 font-weight-bold text-center" id="myModalLabel">Contact
+        </h4>
+      </div>
+      <div class="modal-body">
+        <style>
+          body {
+            text-align: center;
+            padding: 150px;
+          }
+
+          h1 {
+            font-size: 50px;
+          }
+
+          body {
+            font: 20px Helvetica, sans-serif;
+            color: #333;
+          }
+
+          a {
+            color: #dc8100;
+            text-decoration: none;
+          }
+
+          a:hover {
+            color: #333;
+            text-decoration: none;
+          }
+        </style>
+        <div class="md-form">
+          <div>
+            <div>
+              <p><strong>{{schoolName}}</strong></p>
+              <p>{{address}}</p>
+              <p><a href="mailto:{{schoolEmail}}">{{schoolEmail}}</a></p>
+              <p>{{schoolPhone}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" rounded="true" mdbBtn color="danger" class="waves-light" aria-label="Close"
+          (click)="basicModal.hide()" mdbWavesEffect>Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div mdbModal #support="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="support"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="support.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100 font-weight-bold text-center" id="myModalLabel">Support
+        </h4>
+      </div>
+      <div class="modal-body">
+        <style>
+          body {
+            text-align: center;
+            padding: 150px;
+          }
+
+          h1 {
+            font-size: 50px;
+          }
+
+          body {
+            font: 20px Helvetica, sans-serif;
+            color: #333;
+          }
+
+          a {
+            color: #dc8100;
+            text-decoration: none;
+          }
+
+          a:hover {
+            color: #333;
+            text-decoration: none;
+          }
+        </style>
+        <div class="md-form">
+          <div>
+            <div>
+              <p>In case of any issue please open a ticket in <a href="https://github.com/karthiksurabathula/school-app/issues">Github</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" rounded="true" mdbBtn color="danger" class="waves-light" aria-label="Close"
+          (click)="support.hide()" mdbWavesEffect>Close</button>
+      </div>
+    </div>
+  </div>
+</div>

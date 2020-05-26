@@ -1,0 +1,44 @@
+<div class="container_ body">
+  <div class="centreBox">
+    <!-- Material form login -->
+    <mdb-card>
+
+      <mdb-card-header class="info-color white-text text-center py-4">
+        <h5>
+          <strong>Forgot password</strong>
+        </h5>
+      </mdb-card-header>
+
+
+      <!--Card content-->
+      <mdb-card-body class="px-lg-5 pt-0">
+
+        <!-- Form -->
+        <form class="text-center" style="color: #757575;">
+
+          <!-- Email -->
+          <div class="md-form">
+            <input type="text" id="materialLoginFormEmail" maxlength="10" [(ngModel)]="username" name="username"
+              class="form-control" mdbInput>
+            <label for="materialLoginFormEmail">Username</label>
+            <mdb-error *ngIf="checkUsername()">Input Required</mdb-error>
+          </div>
+
+          <!-- Sign in button -->
+          <button mdbBtn color="info" outline="true" rounded="true" block="true" class="my-4 waves-effect z-depth-0"
+            mdbWavesEffect type="submit" >Submit</button>
+
+
+          <p>Already a user
+            <a routerLink="/login">Login</a>
+          </p>
+
+        </form>
+        <!-- Form -->
+
+      </mdb-card-body>
+
+    </mdb-card>
+    <!-- Material form login -->
+  </div>
+</div>

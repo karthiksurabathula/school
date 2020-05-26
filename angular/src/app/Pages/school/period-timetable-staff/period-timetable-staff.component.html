@@ -1,0 +1,44 @@
+<div class="container" id="top-section">
+  <h4 class="text-center font-weight-bold text-uppercase py-4">Time Table</h4>
+  <div class="fixed-action-btn smooth-scroll" style="bottom: 45px; right: 24px;" *ngIf="(role === 'SUPERUSER' ||  role === 'ADMIN')">
+    <a href="#top-section" mdbPageScroll [pageScrollDuration]="750"
+      class="btn-floating btn-large red waves-effect waves-light">
+      <i class="fas fa-arrow-up"></i>
+    </a>
+  </div>
+  <div class="card-body">
+    <div class="row"> 
+      <div class="mx-2">
+        <label>Day</label>
+        <select class="browser-default custom-select mdb-select  md-form " searchable="Search here.."
+          (change)='onDaySelected($event)' [(ngModel)]='ceDay'>
+          <option value="" hidden selected>Choose Day</option>
+          <option value=Monday>Monday</option>
+          <option value=Tuesday>Tuesday</option>
+          <option value=Wednesday>Wednesday</option>
+          <option value=Thursday>Thursday</option>
+          <option value=Friday>Friday</option>
+          <option value=Saturday>Saturday</option>
+          <option value=Sunday>Sunday</option>
+        </select>
+      </div>
+    </div>
+    <div>
+      <table mdbTable class="text-center z-depth-1" bordered="true">
+        <tr>
+          <th class="text-center">Start Time</th>
+          <th class="text-center">End Time</th>
+          <th class="text-center">Class</th>
+          <th class="text-center">Section</th>
+          <th class="text-center">Subject</th>
+        <tr *ngFor="let table of timeTable ; let i = index">
+          <td><span>{{table.period.startTime}}</span></td>
+          <td><span>{{table.period.endTime}}</span></td>
+          <td><span>{{table.class.className}}</span></td>
+          <td><span>{{table.section.sectionName}}</span></td>
+          <td><span>{{table.subject.subjectName}}</span></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

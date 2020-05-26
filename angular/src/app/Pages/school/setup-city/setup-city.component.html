@@ -1,0 +1,138 @@
+<div class="container" id="top-section">
+  <h3 class="text-center font-weight-bold text-uppercase py-4">Setup City</h3>
+  <div class="fixed-action-btn smooth-scroll" style="bottom: 45px; right: 24px;">
+    <a href="#top-section" mdbPageScroll [pageScrollDuration]="750"
+      class="btn-floating btn-large red waves-effect waves-light">
+      <i class="fas fa-arrow-up"></i>
+    </a>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="w-75 mx-auto">
+        <div class="md-form">
+          <input type="text" [(ngModel)]="searchText" class="form-control" id="search" mdbInput>
+          <label for="search">Search</label>
+        </div>
+      </div>
+      <div class="w-auto mx-auto">
+        <div class="md-form">
+          <span>
+            <button type="button" mdbBtn color="primary" rounded="true" class="justify-content-end"
+              (click)="showCreateCityPopup()">Add
+              City</button>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <table mdbTable class="text-center z-depth-1" bordered="true">
+        <tr>
+          <th [mdbTableSort]="cities" sortBy="city" class="text-center">City<mdb-icon fas icon="sort"></mdb-icon>
+          </th>
+          <th [mdbTableSort]="cities" sortBy="state" class="text-center">State<mdb-icon fas icon="sort"></mdb-icon>
+          </th>
+          <th [mdbTableSort]="cities" sortBy="status" class="text-center">Status<mdb-icon fas icon="sort"></mdb-icon>
+          </th>
+          <th class="text-center">Action</th>
+        </tr>
+        <tr *ngFor="let city of cities| filter:searchText ;let i = index">
+          <td><span>{{city.city}}</span></td>
+          <td><span>{{city.state}}</span></td>
+          <td><span [ngStyle]="{'background-color':city.status == true ? 'green' : 'red' }">{{city.status}}</span></td>
+          <td>
+            <span class="table-remove">
+              <button type="button" mdbBtn color="info" rounded="true" size="sm" class="my-0"
+                (click)="editCityPopup(city)">
+                Edit
+              </button>
+            </span>
+            <span class="table-remove">
+              <button type="button" mdbBtn color="danger" rounded="true" size="sm" class="my-0"
+                (click)="removeConformationPopup(city)">Remove</button>
+            </span>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- Create-edit City Popup -->
+<div mdbModal #basicModal="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="basicModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100 font-weight-bold text-center" id="myModalLabel">{{popupTitle}}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="modal-body mx-3">
+          <div class="md-form mb-5">
+            <input type="text" id="state" [(ngModel)]="cestate" name="state" class="form-control" mdbInput>
+            <label for="state">State</label>
+            <mdb-error *ngIf="checkIfStateIsEmpty()">Input Required</mdb-error>
+          </div>
+          <div class="md-form mb-5">
+            <input type="text" id="CityName" [(ngModel)]="cecity" name="city" class="form-control" mdbInput>
+            <label for="CityName">City</label>
+            <mdb-error *ngIf="checkIfCityIsEmpty()">Input Required</mdb-error>
+          </div>
+          <div class="md-form mb-5">
+            <div class="row ml-1">
+              <div class="col-4"><label>Status</label></div>
+              <div class="col-8">
+                <div class="switch">
+                  <label>
+                    Off
+                    <input type="checkbox" [checked]="cestatus" (change)="changeStatus()">
+                    <span class="lever"></span> On
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="modal-footer">
+        <button type="button" rounded="true" mdbBtn color="danger" class="waves-light" aria-label="Close"
+          (click)="basicModal.hide()" mdbWavesEffect>Close</button>
+        <button type="button" rounded="true" mdbBtn color="success" class="relative waves-light" (click)="add()"
+          mdbWavesEffect>Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Create-edit City Popup -->
+
+<!-- Conformation Popup -->
+<div mdbModal #conformationModal="mdbModal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="myBasicModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="conformationModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel">Delete Conformation</h4>
+      </div>
+      <div class="modal-body">
+        <b>Would you like to remove City?</b>
+        <br>
+        Once Removed, associated <strong> data related to schools in the city </strong> will also be removed and cannot be undone
+      </div>
+      <div class="modal-footer">
+        <button type="button" mdbBtn color="danger" class="waves-light" aria-label="Close"
+          (click)="conformationModal.hide()" mdbWavesEffect>Close</button>
+        <button type="button" mdbBtn color="success" class="relative waves-light" mdbWavesEffect (click)="remove()">Yes
+          Remove</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Conformation Popup -->

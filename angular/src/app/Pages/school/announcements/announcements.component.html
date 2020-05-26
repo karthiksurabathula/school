@@ -1,0 +1,164 @@
+<div class="container" id="top-section">
+  <h3 class="text-center font-weight-bold text-uppercase py-4">Announcements</h3>
+  <div class="fixed-action-btn smooth-scroll" style="bottom: 45px; right: 24px;">
+    <a href="#top-section" mdbPageScroll [pageScrollDuration]="750"
+      class="btn-floating btn-large red waves-effect waves-light">
+      <i class="fas fa-arrow-up"></i>
+    </a>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="mx-2" *ngIf="role === 'SUPERUSER'">
+        <label>City</label>
+        <select class="browser-default custom-select mdb-select md-form " searchable="Search here.."
+          (change)='onCitySelected($event)'>
+          <option value="" hidden selected>Choose your City</option>
+          <option value={{city.id}} *ngFor="let city of cities; let id = index">{{city.city}}</option>
+        </select>
+      </div>
+      <div class="mx-2" *ngIf="role === 'SUPERUSER'">
+        <label>School</label>
+        <select class="browser-default custom-select mdb-select  md-form " searchable="Search here.."
+          (change)='onSchoolSelected($event)'>
+          <option value="" hidden selected>Choose School</option>
+          <option value={{school.id}} *ngFor="let school of schools; let id = index">{{school.schoolName}}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="w-75 mx-auto">
+        <div class="md-form">
+          <input type="text" [(ngModel)]="searchText" class="form-control" id="search" mdbInput>
+          <label for="search">Search</label>
+        </div>
+      </div>
+      <div class="w-auto mx-auto" *ngIf="role === 'ADMIN' || role === 'SUPERUSER' ">
+        <div class="md-form">
+          <span>
+            <button type="button" mdbBtn color="primary" rounded="true" (click)="createAnnouncement()"
+              [disabled]="ceSchoolId==0">Add
+              Announcement</button>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <table mdbTable class="text-center z-depth-1" bordered="true">
+        <thead>
+          <tr>
+            <th [mdbTableSort]="announcementResp" sortBy="lastModified" class="text-center">Date<mdb-icon fas
+                icon="sort"></mdb-icon>
+            </th>
+            <th [mdbTableSort]="announcementResp" sortBy="title" class="text-center">Title<mdb-icon fas icon="sort">
+              </mdb-icon>
+            </th>
+            <th [mdbTableSort]="announcementResp" sortBy="title" class="text-center"
+              *ngIf="role === 'ADMIN' || role === 'SUPERUSER' ">Visibility<mdb-icon fas icon="sort">
+              </mdb-icon>
+            </th>
+            <th class="text-center" *ngIf="role === 'ADMIN' || role === 'SUPERUSER' ">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let announcement of announcementResp| filter:searchText; let i = index"
+            (click)="showAnnouncement(announcement)">
+            <td> <span><u>{{announcement.lastModified}}</u></span></td>
+            <td><span><u>{{announcement.title}}</u></span></td>
+            <td *ngIf="role === 'ADMIN' || role === 'SUPERUSER' ">
+              <span *ngIf="announcement.visibilty">Visible</span>
+              <span *ngIf="!announcement.visibilty">hidden</span>
+            </td>
+            <td *ngIf="role === 'ADMIN' || role === 'SUPERUSER' ">
+              <span class="table-remove">
+                <button type="button" mdbBtn color="info" rounded="true" size="sm" class="my-0"
+                  (click)="editAnnouncement(announcement)">
+                  Edit
+                </button>
+              </span>
+              <span class="table-remove">
+                <button type="button" mdbBtn color="secondary" rounded="true" size="sm" class="my-0"
+                  (click)="setVibility(announcement)">
+                  Toggle Visibility
+                </button>
+              </span>
+              <span class="table-remove">
+                <button type="button" mdbBtn color="danger" rounded="true" size="sm" class="my-0"
+                  (click)="remove(announcement)">Remove</button>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Create-edit School Popup -->
+<div mdbModal #basicModal="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="basicModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100 font-weight-bold text-center" id="myModalLabel">Announcement</h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="md-form mx-3">
+          <textarea type="text" id="form1" [(ngModel)]="title" class="md-textarea md-textarea-auto form-control"
+            mdbInput [disabled]="!(role === 'ADMIN' || role === 'SUPERUSER' )"></textarea>
+          <label for="form1">Title</label>
+        </div>
+        <div class="md-form mx-3">
+          <textarea type="text" id="form7" [(ngModel)]="description" class="md-textarea md-textarea-auto form-control"
+            mdbInput [disabled]="!(role === 'ADMIN' || role === 'SUPERUSER' )"></textarea>
+          <label for="form7">Description</label>
+        </div>
+      </div>
+      <br>
+      <div class="modal-footer">
+        <button type="button" rounded="true" mdbBtn color="danger" class="waves-light" aria-label="Close"
+          (click)="basicModal.hide()" mdbWavesEffect>Close</button>
+        <button type="button" rounded="true" mdbBtn color="success" class="relative waves-light"
+          (click)="createAnnouncements()" mdbWavesEffect>Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Create-edit School Popup -->
+
+<!-- Conformation Popup -->
+<div mdbModal #conformationModal="mdbModal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="myBasicModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="conformationModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel">Delete Conformation</h4>
+      </div>
+      <div class="modal-body">
+        <b>Would you like to remove Announcement?</b>
+        <br>
+        Once Removed the changes cannot be undone
+      </div>
+      <div class="modal-footer">
+        <button type="button" mdbBtn color="danger" class="waves-light" aria-label="Close"
+          (click)="conformationModal.hide()" mdbWavesEffect>Close</button>
+        <button type="button" mdbBtn color="success" class="relative waves-light" mdbWavesEffect
+          (click)="removeAnnouncement()">Yes
+          Remove</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Conformation Popup -->

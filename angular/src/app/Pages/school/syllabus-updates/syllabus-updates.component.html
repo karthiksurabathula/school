@@ -1,0 +1,86 @@
+<div class="container" id="top-section">
+  <h3 class="text-center font-weight-bold text-uppercase py-4">Syllabus updates</h3>
+  <div class="fixed-action-btn smooth-scroll" style="bottom: 45px; right: 24px;">
+    <a href="#top-section" mdbPageScroll [pageScrollDuration]="750"
+      class="btn-floating btn-large red waves-effect waves-light">
+      <i class="fas fa-arrow-up"></i>
+    </a>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="mx-2" *ngIf="role === 'SUPERUSER'">
+        <label>City</label>
+        <select class="browser-default custom-select mdb-select md-form " searchable="Search here.."
+          (change)='onCitySelected($event)'>
+          <option value="" hidden selected>Choose your City</option>
+          <option value={{city.id}} *ngFor="let city of cities; let id = index">{{city.city}}</option>
+        </select>
+      </div>
+      <div class="mx-2" *ngIf="role === 'SUPERUSER'">
+        <label>School</label>
+        <select class="browser-default custom-select mdb-select  md-form " searchable="Search here.."
+          (change)='onSchoolSelected($event)'>
+          <option value="" hidden selected>Choose School</option>
+          <option value={{school.id}} *ngFor="let school of schools; let id = index">{{school.schoolName}}
+          </option>
+        </select>
+      </div>
+      <div class="mx-2" *ngIf="role !== 'STUDENT'">
+        <label>Class</label>
+        <select class="browser-default custom-select mdb-select  md-form " searchable="Search here.."
+          (change)='onClassSelected($event)'>
+          <option value="" hidden selected>Choose Class</option>
+          <option value={{class.id}} *ngFor="let class of classes; let id = index">{{class.className}}
+          </option>
+        </select>
+      </div>
+      <div class="mx-2"  *ngIf="role !== 'STUDENT'">
+        <label>Section</label>
+        <select class="browser-default custom-select mdb-select  md-form " searchable="Search here.."
+          (change)='onSectionSelected($event)'>
+          <option value="" hidden selected>Choose Section</option>
+          <option value={{section.id}} *ngFor="let section of sections; let id = index">{{section.sectionName}}
+          </option>
+        </select>
+      </div>
+      <div class="mx-2">
+        <label>Subject</label>
+        <select class="browser-default custom-select mdb-select md-form" searchable="Search here.."
+          (change)='onSubjectId($event)'>
+          <option value="" hidden selected>Select Subject</option>
+          <option value={{subject.subjectId}} *ngFor="let subject of subjectClassMap; let id = index">
+            {{subject.subjectName}}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row text-right mt-3" >
+      <div class="mx-2 ml-3 w-20">
+        <div class="md-form">
+          <input mdbInput type="text" [(ngModel)]="percentage" id="form1" class="form-control" [disabled]="role === 'STUDENT'">
+          <label for="form1" class="">Percentage Completed</label>
+        </div>
+      </div>
+      <div class="mx-2 w-75 text-right"  >
+        <div class="md-form mx-2">
+          <span *ngIf="role !== 'STUDENT'">
+            <button type="button" mdbBtn color="primary" rounded="true" class="justify-content-end"
+              (click)="updateSyllabus()" [disabled]="ceSubjectId==0">Save</button>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="md-form w-100 mx-3">
+        <textarea type="text" id="form7" [(ngModel)]='description' class="md-textarea md-textarea-auto form-control" mdbInput [disabled]="role === 'STUDENT'"></textarea>
+        <label for="form7">Syllabus updates</label>
+      </div>
+    </div>
+    
+    <div>
+
+    </div>
+  </div>
+</div>

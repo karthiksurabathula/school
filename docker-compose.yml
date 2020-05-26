@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+
+  angular:
+    image: karthiksurabathula/httpd:latest
+    container_name: httpd
+    volumes:
+      - /docker/httpd:/usr/local/apache2/logs
+    depends_on:
+      - mysql
+      - springboot
+    ports:
+      - "8081:80"
+    networks:
+      - spring-boot-mysql-network
+  springboot:
+    image: karthiksurabathula/springboot:latest
+    container_name: spring-boot
+    volumes:
+      - /docker/boot:/usr/app/logs
+    depends_on:
+      - mysql
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/school?allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Password
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "localhost:8082/actuator/health 2>&1 | grep UP || exit 1"]
+    networks:
+      - spring-boot-mysql-network
+  #DB
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Password
+      MYSQL_DATABASE: schoool
+    ports:
+      - "8083:3306"
+    volumes:
+      - /docker/sql:/var/lib/mysql
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u root --password=Password
+    networks:
+      - spring-boot-mysql-network
+networks:
+  spring-boot-mysql-network:
+    driver: bridge
+

@@ -1,0 +1,46 @@
+<div class="container" id="top-section">
+  <!-- <h3 class="text-center font-weight-bold text-uppercase py-4">Home</h3> -->
+  <div class="fixed-action-btn smooth-scroll" style="bottom: 45px; right: 24px;">
+    <a href="#top-section" mdbPageScroll [pageScrollDuration]="750"
+      class="btn-floating btn-large red waves-effect waves-light">
+      <i class="fas fa-arrow-up"></i>
+    </a>
+  </div>
+  <div class="card-body mx-auto">
+    <div class="row">
+
+      <div class="col" *ngFor="let item of analytics;"  (click)="route(item)">
+        <!--Panel-->
+        <div class="card-body">
+          <div class="media d-block d-md-flex">
+            <div class="media-body text-center text-md-left ml-md-3 ml-0">
+              <div class="col">
+                <img class="d-flex avatar-2 mb-md-0 mx-auto image-size"
+                src="/assets/images/{{item.image}}" alt="Generic placeholder image">
+              </div>
+              <div class="col">
+                <h4 class="center">{{item.descriptor}}</h4>
+                <h2 class="center"  *ngIf="item.count>0">{{item.count}}</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--/.Panel-->
+      </div>
+
+    
+
+
+
+
+
+
+
+
+      </div>
+
+
+
+
+    </div>
+  </div>

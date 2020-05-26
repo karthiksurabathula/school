@@ -1,0 +1,134 @@
+<div class="container" id="top-section">
+  <h3 class="text-center font-weight-bold text-uppercase py-4">Setup Subject</h3>
+  <div class="fixed-action-btn smooth-scroll" style="bottom: 45px; right: 24px;">
+    <a href="#top-section" mdbPageScroll [pageScrollDuration]="750"
+      class="btn-floating btn-large red waves-effect waves-light">
+      <i class="fas fa-arrow-up"></i>
+    </a>
+  </div>
+  <div class="card-body">
+
+    <div class="row">
+      <div class="mx-3"  *ngIf="role === 'SUPERUSER'">
+        <label>City</label>
+        <select class="browser-default custom-select mdb-select  md-form " searchable="Search here.."
+          (change)='onCitySelected($event)'>
+          <option value="" hidden selected>Choose your City</option>
+          <option value={{city.id}} *ngFor="let city of cities; let id = index">{{city.city}}</option>
+        </select>
+      </div>
+      <div class="mx-3"  *ngIf="role === 'SUPERUSER'">
+        <label>School</label>
+        <select class="browser-default custom-select mdb-select  md-form " searchable="Search here.."
+          (change)='onSchoolSelected($event)'>
+          <option value="" hidden selected>Choose your School</option>
+          <option value={{school.id}} *ngFor="let school of schools; let id = index">{{school.schoolName}}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="w-75 mx-auto">
+        <div class="md-form">
+          <input type="text" [(ngModel)]="searchText" class="form-control" id="search" mdbInput>
+          <label for="search">Search</label>
+        </div>
+      </div>
+      <div class="w-auto mx-auto">
+        <div class="md-form">
+          <span>
+            <button type="button" mdbBtn color="primary" rounded="true" (click)="showCreateSubjectPopup()"
+              [disabled]="ceSchoolId==0">Add Subject</button>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <table mdbTable class="text-center z-depth-1" bordered="true">
+        <tr>
+          <th [mdbTableSort]="subjects" sortBy="subjectName" class="text-center">Subject<mdb-icon fas icon="sort">
+            </mdb-icon>
+          </th>
+          <th class="text-center">Action</th>
+        </tr>
+        <tr *ngFor="let subject of subjects | filter:searchText; let i = index">
+          <td><span>{{subject.subjectName}}</span></td>
+          <td>
+            <span class="table-remove">
+              <button type="button" mdbBtn color="info" rounded="true" size="sm" class="my-0"
+                (click)="editSubjectPopup(subject)">
+                Edit
+              </button>
+            </span>
+            <span class="table-remove">
+              <button type="button" mdbBtn color="danger" rounded="true" size="sm" class="my-0"
+                (click)="removeConformationPopup(subject) ">Remove</button>
+            </span>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- Create-edit School Popup -->
+<div mdbModal #basicModal="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="basicModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100 font-weight-bold text-center" id="myModalLabel">{{popupTitle}}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="modal-body mx-3">
+          <div class="md-form mb-5">
+            <input type="text" id="className" [(ngModel)]="ceSubjectName" name="state" class="form-control" mdbInput>
+            <label for="className">Subject Name</label>
+            <mdb-error *ngIf="checkIfSubjectNameIsEmpty()">Input Required</mdb-error>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="modal-footer">
+        <button type="button" rounded="true" mdbBtn color="danger" class="waves-light" aria-label="Close"
+          (click)="basicModal.hide()" mdbWavesEffect>Close</button>
+        <button type="button" rounded="true" mdbBtn color="success" class="relative waves-light" (click)="add()"
+          mdbWavesEffect>Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Create-edit School Popup -->
+
+<!-- Conformation Popup -->
+<div mdbModal #conformationModal="mdbModal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="myBasicModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="conformationModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel">Delete Conformation</h4>
+      </div>
+      <div class="modal-body">
+        <b>Would you like to remove Subject?</b>
+        <br>
+        Once Removed, associated <strong>Subject, Subject Map, Marks and Timetable associated </strong> will also be removed and cannot be undone
+      </div>
+      <div class="modal-footer">
+        <button type="button" mdbBtn color="danger" class="waves-light" aria-label="Close"
+          (click)="conformationModal.hide()" mdbWavesEffect>Close</button>
+        <button type="button" mdbBtn color="success" class="relative waves-light" mdbWavesEffect (click)="remove()">Yes
+          Remove</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Conformation Popup -->
