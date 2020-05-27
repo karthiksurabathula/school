@@ -2,23 +2,26 @@ version: '3'
 
 services:
 
+  #Apache
   angular:
-    image: karthiksurabathula/httpd:latest
+    image: karthiksurabathula/httpd:1
     container_name: httpd
     volumes:
-      - /docker/httpd:/usr/local/apache2/logs
+      - E:/kube/school/httpd:/usr/local/apache2/logs
     depends_on:
       - mysql
       - springboot
     ports:
-      - "8081:80"
+      - "8080:80"
     networks:
       - spring-boot-mysql-network
+  
+  #Java
   springboot:
-    image: karthiksurabathula/springboot:latest
+    image: karthiksurabathula/springboot:1
     container_name: spring-boot
     volumes:
-      - /docker/boot:/usr/app/logs
+      - E:/kube/school/springboot:/usr/app/logs
     depends_on:
       - mysql
     ports:
@@ -28,7 +31,10 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: Password
     healthcheck:
-      test: ["CMD", "curl", "--fail", "--silent", "localhost:8082/actuator/health 2>&1 | grep UP || exit 1"]
+      test: ["CMD", "curl", "springboot:8082/actuator/health 2>&1 | grep UP || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
     networks:
       - spring-boot-mysql-network
   #DB
@@ -40,14 +46,16 @@ services:
       MYSQL_ROOT_PASSWORD: Password
       MYSQL_DATABASE: schoool
     ports:
-      - "8083:3306"
+      - "8081:3306"
     volumes:
-      - /docker/sql:/var/lib/mysql
+      - E:/kube/school/mysql:/var/lib/mysql
     healthcheck:
       test: mysqladmin ping -h 127.0.0.1 -u root --password=Password
+      interval: 5s
+      timeout: 5s
+      retries: 3
     networks:
       - spring-boot-mysql-network
 networks:
   spring-boot-mysql-network:
     driver: bridge
-
