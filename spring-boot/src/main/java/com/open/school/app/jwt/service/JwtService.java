@@ -361,6 +361,7 @@ public class JwtService {
 		newUser.setPassword(bcryptEncoder.encode(password));
 		newUser.setAccountNonExpired(true);
 		newUser.setAccountNonLocked(true);
+		newUser.setFailurecount(0);
 		newUser.setEnabled(true);
 		newUser.setCredentialsNonExpired(true);
 		newUser.setCreatedDate(new Date());

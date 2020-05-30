@@ -87,7 +87,11 @@ export class ExamComponent implements OnInit {
           this.ceSectionId = Number(this.cookie.get("sectionId"));
           this.getExamsBySchoolAndClassSection();
         } else {
-          this.getExams(this.ceSchoolId);
+          if (this.cookie.get("role") === "TEACHER") {
+            this.getExamsByTeacher(this.ceSchoolId);
+          } else {
+            this.getExams(this.ceSchoolId);
+          }
         }
       }
     } else {
@@ -417,6 +421,21 @@ export class ExamComponent implements OnInit {
           }
         },
         () => {}
+      );
+  }
+
+  getExamsByTeacher(schoolId: number) {
+    this.examService
+      .getExamsByTeacher("Bearer " + this.cookie.get("token"), schoolId)
+      .subscribe(
+        (result) => {
+          if (result.indicator === "success") {
+            this.examRep = result.exams;
+          } else {
+            this.examRep = [];
+          }
+        },
+        (err) => {}
       );
   }
 }

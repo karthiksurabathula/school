@@ -81,5 +81,16 @@ public class ExamController {
 		else
 			return examServiceImpl.deleteExams(examId, schoolId);
 	}
+	
+	
+	@PreAuthorize("hasPermission('examByTeacher', 'GET')")
+	@RequestMapping(value = "examByTeacher", method = RequestMethod.GET)
+	public ResponseEntity<?> getExamByTeacher(@RequestParam long schoolId) {
+		ResponseEntity<?> resp = customPrevEval.hasPrivilege(schoolId);
+		if (resp != null)
+			return resp;
+		else
+			return examServiceImpl.getExamsByTeacher(schoolId);
+	}
 
 }

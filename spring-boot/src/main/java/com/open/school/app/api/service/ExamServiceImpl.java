@@ -21,6 +21,7 @@ import com.open.school.app.api.entity.ExamTimeTableEntity;
 import com.open.school.app.api.entity.MarksStatusTrackerEntity;
 import com.open.school.app.api.entity.SchoolEntity;
 import com.open.school.app.api.entity.SectionEntity;
+import com.open.school.app.api.entity.StaffEntity;
 import com.open.school.app.api.entity.SubjectClassMapEntity;
 import com.open.school.app.api.entity.SubjectEntity;
 import com.open.school.app.api.repository.ClassRepository;
@@ -28,6 +29,7 @@ import com.open.school.app.api.repository.ExamRepository;
 import com.open.school.app.api.repository.ExamTimeTableRepository;
 import com.open.school.app.api.repository.MarksStatusTrackerRepository;
 import com.open.school.app.api.repository.SectionRepository;
+import com.open.school.app.api.repository.StaffRepository;
 import com.open.school.app.api.repository.SubjectClassMapRepository;
 
 @Service
@@ -47,6 +49,8 @@ public class ExamServiceImpl {
 	private DeleteServiceLogic deleteService;
 	@Autowired
 	private ExamTimeTableRepository examTimetableRepo;
+	@Autowired
+	private StaffRepository staffRepo;
 	
 	private static final Logger log = LogManager.getLogger(ExamServiceImpl.class);
 
@@ -261,7 +265,6 @@ public class ExamServiceImpl {
 				response.put("indicator", "success");
 				for (int i = 0; i < exams.size(); i++) {
 					HashMap<String, Object> exam = new HashMap<>();
-
 					exam.put("scope", exams.get(i).getScope());
 					exam.put("exam", exams.get(i));
 					exam.put("examName", exams.get(i).getName());
@@ -343,6 +346,59 @@ public class ExamServiceImpl {
 
 		return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+	
+	
+	
+	
+	
+	public ResponseEntity<?> getExamsByTeacher(long schoolId) {
+		HashMap<String, Object> response = new HashMap<>();
+		List<Object> examResponse = new ArrayList<Object>(); 
+		String message = null;
+		try {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			StaffEntity staff = staffRepo.getByStaffBySchoolAndIdString(schoolId, auth.getName());
+			List<ExamEntity> exams = examRepo.getExamsByStaff(schoolId,staff.getId());
+			if (exams.size() > 0) {
+				response.put("indicator", "success");
+				for (int i = 0; i < exams.size(); i++) {
+					HashMap<String, Object> exam = new HashMap<>();
+
+					exam.put("scope", exams.get(i).getScope());
+					exam.put("exam", exams.get(i));
+					exam.put("examName", exams.get(i).getName());
+					exam.put("schoolId", exams.get(i).getSchool().getId());
+					if (exams.get(i).getScope().equals("Class")) {
+						exam.put("classId", exams.get(i).getClasses().getId());
+						exam.put("className", exams.get(i).getClasses().getClassName());
+					}
+					if (exams.get(i).getScope().equals("Section")) {
+						exam.put("classId", exams.get(i).getClasses().getId());
+						exam.put("className", exams.get(i).getClasses().getClassName());
+						exam.put("sectionId", exams.get(i).getSection().getId());
+						exam.put("sectionName", exams.get(i).getSection().getSectionName());
+					}
+					examResponse.add(exam);
+				}
+				response.put("exams", examResponse);
+			} else {
+				response.put("indicator", "fail");
+				response.put("message", "Exams not Found");
+			}
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} catch (Exception e) {
+			log.error("", e);
+			response.put("indicator", "fail");
+			response.put("code", "U1001");
+			message = "Error Occured, if issue persists please contact administrator";
+		}
+
+		if (message != null)
+			response.put("message", message);
+
+		return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
 	
 	
 	

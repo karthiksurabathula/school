@@ -83,7 +83,13 @@ public class AnalyticsService {
 
 					analytics.add(new AnalyticsModel("Students", studentRepo.getByStudentsCountBySchool(schoolId), "student.png", "/student"));
 					analytics.add(new AnalyticsModel("Staff", staffRepo.getByStaffCountBySchoolAndId(schoolId), "teacher.png", "/staff"));
-					analytics.add(new AnalyticsModel("Absentees", attendanceRepo.getAbsenteesBySchoolCount(schoolId, day.getId()), "sick.png", "/attendance-tracker"));
+
+					if (day == null) {
+						analytics.add(new AnalyticsModel("Absentees", 0, "sick.png", "/attendance-tracker"));
+					} else {
+						analytics.add(new AnalyticsModel("Absentees", attendanceRepo.getAbsenteesBySchoolCount(schoolId, day.getId()), "sick.png", "/attendance-tracker"));
+					}
+
 					analytics.add(new AnalyticsModel("Upcoming Exams", examRepo.getExamsByCompletionStatusAndSchool(false, schoolId), "test.png", "/exam"));
 					analytics.add(new AnalyticsModel("Announcements", announcementRepo.getCurrentAnnouncementCount(schoolId), "bell.png", "/announcement"));
 					analytics.add(new AnalyticsModel("Timetable", 0, "clock.png", "/timetable"));

@@ -3,8 +3,9 @@ package com.open.school.app.startup;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Component;
 
 import com.open.school.app.api.entity.CalendarDaysEntity;
 import com.open.school.app.api.repository.CalendarDaysRepository;
@@ -19,7 +20,7 @@ import com.open.school.app.jwt.repository.LoginUserRepository;
 import com.open.school.app.jwt.repository.UserRoleRepository;
 import com.open.school.app.jwt.service.JwtService;
 
-@Configuration
+@Component
 public class StartupChecks {
 
 	@Autowired
@@ -37,7 +38,7 @@ public class StartupChecks {
 	@Autowired
 	private InitializationTrackerServiceImpl initiService;
 
-	@Bean
+	@EventListener(ApplicationReadyEvent.class)
 	void startup() {
 		addUserRoles();
 		addCalendarDays();
@@ -114,7 +115,7 @@ public class StartupChecks {
 
 				"period,POST,PeriodController,Create Periods for School;SUPERUSER,ADMIN", "period,GET,PeriodController,Get period by school;SUPERUSER,ADMIN,TEACHER,STUDENT", "period,DELETE,PeriodController,Delete Periods for School;SUPERUSER,ADMIN",
 
-				"exam,GET,ExamController,List exams by School;SUPERUSER,ADMIN,TEACHER", "examByClass,GET,ExamController,List exams by School and Class;SUPERUSER,STUDENT", "examBySchool,GET,ExamController,List exams by School by Scope;SUPERUSER,ADMIN,TEACHER", "exam,POST,ExamController,Create new Exam;SUPERUSER,ADMIN,TEACHER", "exam,PUT,ExamController,Update existing Exam;SUPERUSER,ADMIN,TEACHER", "exam,DELETE,ExamController,Delete existing Exam;SUPERUSER,ADMIN",
+				"exam,GET,ExamController,List exams by School;SUPERUSER,ADMIN,TEACHER", "examByClass,GET,ExamController,List exams by School and Class;SUPERUSER,STUDENT", "examBySchool,GET,ExamController,List exams by School by Scope;SUPERUSER,ADMIN,TEACHER", "exam,POST,ExamController,Create new Exam;SUPERUSER,ADMIN,TEACHER", "exam,PUT,ExamController,Update existing Exam;SUPERUSER,ADMIN,TEACHER", "exam,DELETE,ExamController,Delete existing Exam;SUPERUSER,ADMIN", "examByTeacher,GET,ExamController,Get exams by teacher;SUPERUSER,ADMIN,TEACHER",
 
 				"examTimetable,GET,ExamTimeTableController,Get timetable of exam by class;SUPERUSER,ADMIN,TEACHER,STUDENT", "examTimetableSchool,GET,ExamTimeTableController,Get timetable of exam by School;SUPERUSER,ADMIN", "examTimetable,POST,ExamTimeTableController,Save timetable of exam by class;SUPERUSER,ADMIN,TEACHER",
 
@@ -134,8 +135,7 @@ public class StartupChecks {
 
 				"dummyData,POST,DummyDataController,create Dummy Data;SUPERUSER", "dummyData,PUT,DummyDataController,create Dummy Data for Daily tasks;SUPERUSER", "dummyData,GET,DummyDataController,Check if data is being populated;SUPERUSER,ADMIN,TEACHER,STUDENT",
 
-				"appliance,POST,IotController,create iot device;SUPERUSER,ADMIN","appliance,GET,IotController,get iot device;SUPERUSER,ADMIN"
-		};
+				"appliance,POST,IotController,create iot device;SUPERUSER,ADMIN", "appliance,GET,IotController,get iot device;SUPERUSER,ADMIN" };
 
 		List<ApiRequestEntity> apiRequests = apiRepository.findAll();
 

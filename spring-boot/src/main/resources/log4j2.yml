@@ -34,7 +34,7 @@ configuration:
       name: org.hibernate
       appender-ref:
         - level: off
-          ref: Console-Appender
+          ref: ApplicationLogFile-Appender
     #Log SQL statements
     logger:
       additivity: 'false'
@@ -42,7 +42,7 @@ configuration:
       name: org.hibernate.SQL
       appender-ref:
         - level: debug
-          ref: Console-Appender 
+          ref: ApplicationLogFile-Appender
 #    #Log JDBC bind parameters
     logger:
       additivity: 'false'
@@ -50,8 +50,8 @@ configuration:
       name: org.hibernate.type.descriptor.sql
       appender-ref:
         - level: trace
-          ref: Console-Appender
+          ref: ApplicationLogFile-Appender
     root:
       level: info
       appender-ref:
-        ref: Console-Appender
+        ref: ApplicationLogFile-Appender

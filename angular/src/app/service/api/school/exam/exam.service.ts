@@ -89,4 +89,14 @@ export class ExamService {
       params,
     });
   }
+
+  getExamsByTeacher(bearer: string, schoolId: number) {
+    let params = new HttpParams();
+    params = params.append("schoolId", schoolId.toString());
+
+    return this.http.get<examResponse>(this.url + "api/examByTeacher", {
+      headers: new HttpHeaders().set("Authorization", bearer),
+      params,
+    });
+  }
 }

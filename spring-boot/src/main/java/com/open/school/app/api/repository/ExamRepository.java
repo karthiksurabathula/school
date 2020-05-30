@@ -47,4 +47,7 @@ public interface ExamRepository extends JpaRepository<ExamEntity, Long> {
 	@Query(value = "SELECT count(e) FROM ExamEntity e WHERE ((e.school.id=:schoolId and e.scope='School') or ( e.classes.id In (Select sf.classes.id from SubjectStaffMapEntity sf where sf.staff.id=:staffId) and e.scope='Class') or ( e.section.id In (select sfe.section.id from SubjectStaffMapEntity sfe where sfe.staff.id=:staffId) and e.scope='Section')) and e.completed=:completed ")
 	long getUpcommingtExamsStaff(@Param("schoolId") long schoolId,@Param("completed") boolean completed, @Param("staffId") long staffId);
 
+	@Query(value = "SELECT e FROM ExamEntity e WHERE ((e.school.id=:schoolId and e.scope='School') or ( e.classes.id In (Select sf.classes.id from SubjectStaffMapEntity sf where sf.staff.id=:staffId) and e.scope='Class') or ( e.section.id In (select sfe.section.id from SubjectStaffMapEntity sfe where sfe.staff.id=:staffId) and e.scope='Section'))")
+	List<ExamEntity> getExamsByStaff(@Param("schoolId") long schoolId, @Param("staffId") long staffId);
+
 }
