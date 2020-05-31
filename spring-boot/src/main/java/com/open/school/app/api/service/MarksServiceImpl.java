@@ -1,6 +1,8 @@
 package com.open.school.app.api.service;
 
+//import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -44,7 +46,7 @@ public class MarksServiceImpl {
 	private MarksTrackerRepository marksTrackerRepo;
 	@Autowired
 	private MarksStatusTrackerRepository marksStatusRepo;
-	
+
 	private static final Logger log = LogManager.getLogger(MarksServiceImpl.class);
 
 	public ResponseEntity<?> getMarkseBySchoolClassSectionAndSubject(long schoolId, long examId, long subjectId, long classId, long sectionId) {
@@ -137,70 +139,94 @@ public class MarksServiceImpl {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String message = null;
 		try {
-			for (int i = 0; i < marks.size(); i++) {
-				MarksEntity mrks = marksRepo.getMarksBySclStuExamSubj(schoolId, marks.get(i).getStudent().getId(), examId, subjectId);
-				MarksTrackerEntity marksTracker = marksTrackerRepo.getMarksByStudent(schoolId, marks.get(i).getStudent().getId(), examId);
-				ExamTimeTableEntity examTimeTable = examTimeTableRepo.getExamTimetableBySubject(schoolId, classId, examId, subjectId);
-				if (examTimeTable != null) {
-					if (mrks == null) {
-						MarksEntity marksEntity = new MarksEntity();
-						marksEntity.setMarks(marks.get(i).getMarks().getMarks());
-						marksEntity.setTotalMarks(examTimeTable.getMarks());
-						marksEntity.setClasses(new ClassEntity(classId, null, null, null, null, false, null, null));
-						marksEntity.setSchool(new SchoolEntity(schoolId, null, null, null, null, null, null, false, null, null, null, null, null, null));
-						marksEntity.setSubject(new SubjectEntity(subjectId, null, null, null, null, null, null));
-						marksEntity.setStudent(new StudentEntity(marks.get(i).getStudent().getId(), null, null, null, null, null, null, null, null, null, null, null, null, null, false, false, null, null, null, null, null));
-						marksEntity.setExam(new ExamEntity(examId, null, null, null, null, null, null, false, null, null, null, null));
-						marksEntity.setModifiedBy(auth.getName());
-						marksEntity.setLastModified(new Date());
-						marksRepo.saveAndFlush(marksEntity);
 
-						/**
-						 * Set Marks Status
-						 */
-						MarksStatusTrackerEntity marksStatus = marksStatusRepo.getSubjectMarksStatus(schoolId, classId, sectionId, subjectId, examId);
-						marksStatus.setCompleted(true);
-						marksStatusRepo.saveAndFlush(marksStatus);
+			ExamTimeTableEntity exam = examTimeTableRepo.getExamTimetableBySubject(schoolId, classId, examId, subjectId);
 
-						if (marksTracker == null) {
-							MarksTrackerEntity marksTrackerNew = new MarksTrackerEntity();
-							marksTrackerNew.setSchool(new SchoolEntity(schoolId, null, null, null, null, null, null, true, null, null, null, null, null, null));
-							marksTrackerNew.setStudent(new StudentEntity(marks.get(i).getStudent().getId(), null, null, null, null, null, null, null, null, null, null, null, null, null, false, false, null, null, null, null, null));
-							marksTrackerNew.setExam(new ExamEntity(examId, null, null, null, null, null, null, false, null, null, null, null));
-							marksTrackerNew.setModifiedBy(auth.getName());
-							marksTrackerNew.setLastModified(new Date());
-							marksTrackerNew.setMarks(marks.get(i).getMarks().getMarks());
-							marksTrackerNew.setMarksTotal(examTimeTable.getMarks());
-							marksTrackerRepo.saveAndFlush(marksTrackerNew);
+			Calendar c = Calendar.getInstance();
+			Calendar c1 = Calendar.getInstance();
+			
+			//Exam date
+			c.setTime(exam.getDate());
+			c.add(Calendar.DATE, +1); //Allow marks entry from next day of exam
+			
+			//Current Date
+			c1.setTime(new Date());	
+						
+//			SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+//			System.out.println(c.getTime());
+//			System.out.println(c1.getTime());
+//			
+//			System.out.println(c.before(c1));
+			
+			if (c.before(c1)) {
+				for (int i = 0; i < marks.size(); i++) {
+					MarksEntity mrks = marksRepo.getMarksBySclStuExamSubj(schoolId, marks.get(i).getStudent().getId(), examId, subjectId);
+					MarksTrackerEntity marksTracker = marksTrackerRepo.getMarksByStudent(schoolId, marks.get(i).getStudent().getId(), examId);
+					ExamTimeTableEntity examTimeTable = examTimeTableRepo.getExamTimetableBySubject(schoolId, classId, examId, subjectId);
+					if (examTimeTable != null) {
+						if (mrks == null) {
+							MarksEntity marksEntity = new MarksEntity();
+							marksEntity.setMarks(marks.get(i).getMarks().getMarks());
+							marksEntity.setTotalMarks(examTimeTable.getMarks());
+							marksEntity.setClasses(new ClassEntity(classId, null, null, null, null, false, null, null));
+							marksEntity.setSchool(new SchoolEntity(schoolId, null, null, null, null, null, null, false, null, null, null, null, null, null));
+							marksEntity.setSubject(new SubjectEntity(subjectId, null, null, null, null, null, null));
+							marksEntity.setStudent(new StudentEntity(marks.get(i).getStudent().getId(), null, null, null, null, null, null, null, null, null, null, null, null, null, false, false, null, null, null, null, null));
+							marksEntity.setExam(new ExamEntity(examId, null, null, null, null, null, null, false, null, null, null, null));
+							marksEntity.setModifiedBy(auth.getName());
+							marksEntity.setLastModified(new Date());
+							marksRepo.saveAndFlush(marksEntity);
+
+							/**
+							 * Set Marks Status
+							 */
+							MarksStatusTrackerEntity marksStatus = marksStatusRepo.getSubjectMarksStatus(schoolId, classId, sectionId, subjectId, examId);
+							marksStatus.setCompleted(true);
+							marksStatusRepo.saveAndFlush(marksStatus);
+
+							if (marksTracker == null) {
+								MarksTrackerEntity marksTrackerNew = new MarksTrackerEntity();
+								marksTrackerNew.setSchool(new SchoolEntity(schoolId, null, null, null, null, null, null, true, null, null, null, null, null, null));
+								marksTrackerNew.setStudent(new StudentEntity(marks.get(i).getStudent().getId(), null, null, null, null, null, null, null, null, null, null, null, null, null, false, false, null, null, null, null, null));
+								marksTrackerNew.setExam(new ExamEntity(examId, null, null, null, null, null, null, false, null, null, null, null));
+								marksTrackerNew.setModifiedBy(auth.getName());
+								marksTrackerNew.setLastModified(new Date());
+								marksTrackerNew.setMarks(marks.get(i).getMarks().getMarks());
+								marksTrackerNew.setMarksTotal(examTimeTable.getMarks());
+								marksTrackerRepo.saveAndFlush(marksTrackerNew);
+							} else {
+								marksTracker.setModifiedBy(auth.getName());
+								marksTracker.setLastModified(new Date());
+								marksTracker.setMarks(marksTracker.getMarks() + marks.get(i).getMarks().getMarks());
+								marksTracker.setMarksTotal(marksTracker.getMarksTotal() + examTimeTable.getMarks());
+								marksTrackerRepo.saveAndFlush(marksTracker);
+							}
+
 						} else {
+
+							marksTracker.setMarks((marksTracker.getMarks() - mrks.getMarks()) + marks.get(i).getMarks().getMarks());
+							mrks.setMarks(marks.get(i).getMarks().getMarks());
+							mrks.setTotalMarks(examTimeTable.getMarks());
+							mrks.setModifiedBy(auth.getName());
+							mrks.setLastModified(new Date());
+							marksRepo.saveAndFlush(mrks);
+
 							marksTracker.setModifiedBy(auth.getName());
 							marksTracker.setLastModified(new Date());
-							marksTracker.setMarks(marksTracker.getMarks() + marks.get(i).getMarks().getMarks());
-							marksTracker.setMarksTotal(marksTracker.getMarksTotal() + examTimeTable.getMarks());
 							marksTrackerRepo.saveAndFlush(marksTracker);
 						}
-
+						response.put("indicator", "success");
+						response.put("message", "Marks updated successfully");
 					} else {
-
-						marksTracker.setMarks((marksTracker.getMarks() - mrks.getMarks()) + marks.get(i).getMarks().getMarks());
-						mrks.setMarks(marks.get(i).getMarks().getMarks());
-						mrks.setTotalMarks(examTimeTable.getMarks());
-						mrks.setModifiedBy(auth.getName());
-						mrks.setLastModified(new Date());
-						marksRepo.saveAndFlush(mrks);
-
-						marksTracker.setModifiedBy(auth.getName());
-						marksTracker.setLastModified(new Date());
-						marksTrackerRepo.saveAndFlush(marksTracker);
+						response.put("indicator", "fail");
+						response.put("message", "Exam Timetable not set");
 					}
-					response.put("indicator", "success");
-					response.put("message", "Marks updated successfully");
-				} else {
-					response.put("indicator", "fail");
-					response.put("message", "Exam Timetable not set");
 				}
+			} else {
+				response.put("indicator", "fail");
+				response.put("message", "Marks cannot be added before exam date + 1");
 			}
-			
+
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} catch (Exception e) {
 			log.error("", e);
