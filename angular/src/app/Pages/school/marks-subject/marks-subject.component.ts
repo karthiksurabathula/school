@@ -45,6 +45,7 @@ export class MarksSubjectComponent implements OnInit {
   searchText: string;
   role: string;
   examScope: string;
+  inputMarks: boolean;
 
   cities: Array<city>;
   schools: Array<school>;
@@ -65,7 +66,7 @@ export class MarksSubjectComponent implements OnInit {
   ceExamScope: string;
   ceSectionName: string;
   ceClassName: string;
-  ceExamDate: string = '';
+  ceExamDate: string = "";
   ceExamMaxMarks: number;
 
   tempExamPartResp: examPartResp;
@@ -101,8 +102,8 @@ export class MarksSubjectComponent implements OnInit {
     this.subjectClassMap = [];
     this.marksData = [];
     this.ceSubjectId = 0;
-    this.examScope = '';
-    this.ceExamDate = '';
+    this.examScope = "";
+    this.ceExamDate = "";
     this.ceCityId = event.target.value;
     this.getSchools(this.ceCityId);
   }
@@ -114,8 +115,8 @@ export class MarksSubjectComponent implements OnInit {
     this.subjectClassMap = [];
     this.marksData = [];
     this.ceSubjectId = 0;
-    this.examScope = '';
-    this.ceExamDate = '';
+    this.examScope = "";
+    this.ceExamDate = "";
     this.ceSchoolId = event.target.value;
     this.getClasses(this.ceSchoolId);
   }
@@ -126,8 +127,8 @@ export class MarksSubjectComponent implements OnInit {
     this.subjectClassMap = [];
     this.marksData = [];
     this.ceSubjectId = 0;
-    this.examScope = '';
-    this.ceExamDate = '';
+    this.examScope = "";
+    this.ceExamDate = "";
     this.ceClassId = event.target.value;
     this.getSections(this.ceSchoolId, this.ceClassId);
   }
@@ -137,8 +138,8 @@ export class MarksSubjectComponent implements OnInit {
     this.subjectClassMap = [];
     this.marksData = [];
     this.ceSubjectId = 0;
-    this.examScope = '';
-    this.ceExamDate = '';
+    this.examScope = "";
+    this.ceExamDate = "";
     this.ceSectionId = event.target.value;
     this.getExams(this.ceSchoolId);
   }
@@ -162,7 +163,6 @@ export class MarksSubjectComponent implements OnInit {
     this.ceClassName = this.tempExamPartResp.className;
     this.examScope = this.tempExamPartResp.scope;
     this.getSubjectByClass(this.ceSchoolId, this.ceClassId);
-    console.log(this.ceSectionId);
   }
 
   onSubjectId(event) {
@@ -276,10 +276,17 @@ export class MarksSubjectComponent implements OnInit {
             this.marksData = result.data;
             this.ceExamDate = result.timetable.date;
             this.ceExamMaxMarks = result.timetable.marks;
+            this.disableMarksInput(new Date(this.ceExamDate));
           }
         },
         () => {}
       );
+  }
+
+  disableMarksInput(date: Date): Date {
+    date.setDate(date.getDate() + 2);
+    this.inputMarks = !(new Date() > date);
+    return date;
   }
 
   saveMarksBySubject() {

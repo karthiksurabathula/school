@@ -41,7 +41,7 @@ public class ExamTimeTableEntity {
 	@Column(nullable = false)
 	private int marks;
 	@Column(nullable = true)
-	@JsonFormat(pattern = "dd-MM-yyyy")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date date;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")

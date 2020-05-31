@@ -109,7 +109,7 @@
             <td> <span>{{data.student.name}}</span></td>
             <td class="md-form">
               <input type="number" min="0" max="ceExamMaxMarks" class="form-control text-center"
-                [(ngModel)]="data.marks.marks" mdInput>
+                [(ngModel)]="data.marks.marks" mdInput [disabled]="inputMarks">
               <mdb-error class="ml-3 mb-2 text-center" *ngIf="data.marks.marks>ceExamMaxMarks || 0>data.marks.marks">
                 <strong><big>Please enter Marks between 0 and {{ceExamMaxMarks}}</big></strong></mdb-error>
             </td>
