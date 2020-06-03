@@ -99,7 +99,7 @@ public class StartupChecks {
 
 				"subject,GET,SubjectController,List of Subjects by School;SUPERUSER,ADMIN,TEACHER,STUDENT", "subject,POST,SubjectController,Create new Subject;SUPERUSER,ADMIN", "subject,PUT,SubjectController,Update existing Subject;SUPERUSER,ADMIN", "subject,DELETE,SubjectController,Delete existing Subject;SUPERUSER,ADMIN",
 
-				"subjectClassMap,GET,SubjectController,List of Subjects by Class;SUPERUSER,ADMIN,TEACHER", "subjectClassMap,POST,SubjectController,Create new Subject Class Map;SUPERUSER,ADMIN", "subjectClassMap,PUT,SubjectController,Update existing Subject Class Map;SUPERUSER,ADMIN", "subjectClassMap,DELETE,SubjectController,Delete existing Subject Class Map;SUPERUSER,ADMIN",
+				"subjectClassMap,GET,SubjectController,List of Subjects by Class;SUPERUSER,ADMIN,TEACHER,STUDENT", "subjectClassMap,POST,SubjectController,Create new Subject Class Map;SUPERUSER,ADMIN", "subjectClassMap,PUT,SubjectController,Update existing Subject Class Map;SUPERUSER,ADMIN", "subjectClassMap,DELETE,SubjectController,Delete existing Subject Class Map;SUPERUSER,ADMIN",
 
 				"staff,GET,StaffController,List of Staff by School;SUPERUSER,ADMIN", "staff,POST,StaffController,Create new Staff;SUPERUSER,ADMIN", "staff,PUT,StaffController,Update existing Staff;SUPERUSER,ADMIN", "staff,DELETE,StaffController,Delete Staff by School;SUPERUSER,ADMIN",
 

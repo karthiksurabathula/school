@@ -59,6 +59,11 @@ export class SyllabusUpdatesComponent implements OnInit {
       this.role = this.cookie.get("role");
       if (this.cookie.get("role") === "SUPERUSER") {
         this.getcities();
+      } else if (this.cookie.get("role") === "STUDENT") {
+        this.ceSchoolId = +this.cookie.get("schoolId");
+        this.ceClassId = +this.cookie.get("classId");
+        this.ceSectionId =  +this.cookie.get("sectionId");
+        this.getSubjectByClass(this.ceSchoolId, this.ceClassId);
       } else {
         this.ceSchoolId = Number(this.cookie.get("schoolId"));
         this.getClasses(this.ceSchoolId);
@@ -203,7 +208,7 @@ export class SyllabusUpdatesComponent implements OnInit {
             this.syllabus = result.syllabus;
             this.description = result.syllabus.description;
             this.percentage = result.syllabus.percentage;
-            if(this.percentage == 0) {
+            if (this.percentage == 0) {
               this.percentage = null;
             }
             console.log(this.syllabus);
@@ -214,7 +219,6 @@ export class SyllabusUpdatesComponent implements OnInit {
   }
 
   updateSyllabus() {
-
     this.syllabus.percentage = this.percentage;
     this.syllabus.description = this.description;
 
