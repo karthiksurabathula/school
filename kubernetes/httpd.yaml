@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: httpd
+spec:
+  selector:
+    matchLabels:
+      app: httpd
+  replicas: 1
+  template: # template for the pods
+    metadata:
+      labels:
+        app: httpd
+    spec:
+      containers:
+      - name: httpd
+        image: karthiksurabathula/httpd:0
+        resources:
+          limits:
+            memory: 200Mi
+            cpu: 50m
+          requests:
+            cpu: 20m
+            memory: 100Mi
+        volumeMounts:
+          - name: httpd-data
+            mountPath: /usr/local/apache2/logs
+        readinessProbe:
+          httpGet:
+            path: /index.html
+            port: 80
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+          failureThreshold: 12
+        livenessProbe:
+          httpGet:
+            path: /index.html
+            port: 80
+          initialDelaySeconds: 2
+          timeoutSeconds: 1
+          failureThreshold: 3
+          periodSeconds: 120
+      volumes:
+        - name: httpd-data
+          persistentVolumeClaim:
+            claimName: httpd-pvc
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpd
+spec:
+  selector:
+    app: httpd
+  ports:
+    - name: http
+      port: 80
+      nodePort: 30082
+  type: NodePort
