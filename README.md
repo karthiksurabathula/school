@@ -17,7 +17,7 @@ DB assword: Password
 **Angular Requirement**  
 Angualr 8  
   
-**Spring Boot Requirement** 
+**Spring Boot Requirement**   
 Java 8  
 
 ## Setup
