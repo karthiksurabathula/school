@@ -24,6 +24,6 @@ Java 8
 Docker container with pre-configured application are available in public repository, you can use those images or rebuild based on your requirement.
 * [Build application](https://github.com/karthiksurabathula/school/wiki/Build-application)
 * [Docker-compose](https://github.com/karthiksurabathula/school/wiki/docker-compose-setup-instructions) (Not recommended for high availability environment)
-* [Kubernetes](https://github.com/karthiksurabathula/school/wiki/kubernetes--setup-instructions) (High availability cluster)
+* [Kubernetes](https://github.com/karthiksurabathula/school/tree/master/kubernetes) (High availability cluster)
 
 Instrunction to access application are specified in Setup pages
