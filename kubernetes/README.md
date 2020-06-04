@@ -31,3 +31,5 @@ kubectl apply -f httpd.yaml
 
 
 To enable auto scalling please follow instructions from metric-server  
+
+Application is accessable from http://localhost:30082/ or http://**host ip address**:30082/
