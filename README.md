@@ -27,3 +27,7 @@ Docker container with pre-configured application are available in public reposit
 * [Kubernetes](https://github.com/karthiksurabathula/school/tree/master/kubernetes) (High availability cluster)
 
 Instructions to access application are specified in Setup pages
+
+## Wiki
+[Please check the wiki link for further information](https://github.com/karthiksurabathula/school/wiki)
+
