@@ -2,8 +2,8 @@
 
 You can configure number of replicas for Apache and Java application using below attributes from **hpav-2b1.yaml**  
 
-minReplicas: 1
-maxReplicas: 5
+minReplicas: 1  
+maxReplicas: 5  
 
 Number of instances of container increases if the resource  under **metrics:** are breached until it reaches the maximum replicas.  
 
