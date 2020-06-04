@@ -26,4 +26,4 @@ Docker container with pre-configured application are available in public reposit
 * [Docker-compose](https://github.com/karthiksurabathula/school/wiki/docker-compose-setup-instructions) (Not recommended for high availability environment)
 * [Kubernetes](https://github.com/karthiksurabathula/school/tree/master/kubernetes) (High availability cluster)
 
-Instrunction to access application are specified in Setup pages
+Instructions to access application are specified in Setup pages
