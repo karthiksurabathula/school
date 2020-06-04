@@ -30,6 +30,6 @@ kubectl apply -f springboot.yaml
 kubectl apply -f httpd.yaml  
 
 
-To enable auto scalling please follow instructions from metric-server  
+To enable auto scalling please follow instructions from [metric-server](https://github.com/karthiksurabathula/school/tree/master/kubernetes/metrics-server)
 
 Application is accessable from http://localhost:30082/ or http://**host ip address**:30082/
