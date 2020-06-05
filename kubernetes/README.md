@@ -29,6 +29,9 @@ kubectl apply -f mysql.yaml
 kubectl apply -f springboot.yaml  
 kubectl apply -f httpd.yaml  
 
+Requests will not be served to pod\instance until readiness prode is validated.
+
+If due to some issue pod is not responding or crashed a new instance is created right away and replaced in place of pod\instance with issue.
 
 To enable auto scalling please follow instructions from [metric-server](https://github.com/karthiksurabathula/school/tree/master/kubernetes/metrics-server)
 
