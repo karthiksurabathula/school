@@ -176,6 +176,8 @@ export class SetupSectionComponent implements OnInit {
         (result) => {
           if (result.indicator === "success") {
             this.sections = result.section;
+          } else {
+            this.sections = [];
           }
         },
         (err) => {}

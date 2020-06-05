@@ -277,6 +277,8 @@ export class MarksSubjectComponent implements OnInit {
             this.ceExamDate = result.timetable.date;
             this.ceExamMaxMarks = result.timetable.marks;
             this.disableMarksInput(new Date(this.ceExamDate));
+          } else {
+            this.marksData = [];
           }
         },
         () => {}

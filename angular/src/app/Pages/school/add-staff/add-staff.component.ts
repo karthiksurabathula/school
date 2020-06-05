@@ -224,6 +224,8 @@ export class AddStaffComponent implements OnInit {
         (result) => {
           if (result.indicator === 'success') {
             this.staff = result.staff;
+          } else {
+            this.staff = [];
           }
         },
         (err) => {}

@@ -251,6 +251,8 @@ export class PeriodTimetableComponent implements OnInit {
               this.getSubjects();
             }
             this.timeTable = result.timeTable;
+          } else {
+            this.timeTable = [];
           }
         },
         (err) => {}
@@ -292,6 +294,8 @@ export class PeriodTimetableComponent implements OnInit {
         (result) => {
           if (result.indicator === "success") {
             this.subjects = result.subject;
+          } else {
+            this.subjects = [];
           }
         },
         (err) => {}

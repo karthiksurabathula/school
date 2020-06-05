@@ -155,6 +155,7 @@ export class UserManagementComponent implements OnInit {
           if (result.indicator === "success") {
             this.user = result.users;
           } else {
+            this.user = [];
           }
         },
         (err) => {}

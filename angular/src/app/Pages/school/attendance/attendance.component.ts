@@ -181,6 +181,9 @@ export class AttendanceComponent implements OnInit {
           if (result.indicator === "success") {
             this.attendanceResp = result.data;
             this.ceDate = result.data[0].day.date;
+          } else {
+            this.attendanceResp = [];
+            this.ceDate = '';
           }
         },
         (err) => {}

@@ -189,6 +189,8 @@ export class SetupSchoolComponent implements OnInit {
         (result) => {
           if (result.indicator === "success") {
             this.schools = result.school;
+          } else {
+            this.schools = [];
           }
         },
         (err) => {}
@@ -202,6 +204,8 @@ export class SetupSchoolComponent implements OnInit {
         (result) => {
           if (result.indicator === "success") {
             this.schools = result.school;
+          } else {
+            this.schools = [];
           }
         },
         (err) => {}

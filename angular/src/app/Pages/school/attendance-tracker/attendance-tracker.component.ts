@@ -139,6 +139,8 @@ export class AttendanceTrackerComponent implements OnInit {
         (result) => {
           if (result.indicator === "success") {
             this.attendanceResp = result.data;
+          } else {
+            this.attendanceResp = [];
           }
         },
         (err) => {}
@@ -220,6 +222,8 @@ export class AttendanceTrackerComponent implements OnInit {
           if (result.indicator === "success") {
             this.attendanceRespStatus = result.data;
             this.getAbsentees(this.ceSchoolId);
+          } else {
+            this.attendanceRespStatus = [];
           }
         },
         (err) => {}

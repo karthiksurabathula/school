@@ -156,6 +156,8 @@ export class SetupClassComponent implements OnInit {
         (result) => {
           if (result.indicator === "success") {
             this.classes = result.class;
+          } else {
+            this.classes = [];
           }
         },
         (err) => {}

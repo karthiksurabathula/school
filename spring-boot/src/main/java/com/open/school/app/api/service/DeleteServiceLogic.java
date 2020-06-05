@@ -321,8 +321,9 @@ public class DeleteServiceLogic {
 			}
 			// Student Map
 			StudentMapEntity stuMap = studentMapRepository.getByStuId(studentId);
-			studentMapRepository.delete(stuMap);
-	
+			if(stuMap!=null) {
+				studentMapRepository.delete(stuMap);
+			}
 			Optional<StudentEntity> stu = studentRepo.findById(studentId);
 			// User group
 			userOrgRepository.delete(userOrgRepository.findUserOrgMapByUsername(stu.get().getUsername()));

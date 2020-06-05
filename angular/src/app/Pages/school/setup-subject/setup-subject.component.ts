@@ -191,6 +191,8 @@ export class SetupSubjectComponent implements OnInit {
         (result) => {
           if (result.indicator === "success") {
             this.subjects = result.subject;
+          } else {
+            this.subjects = [];
           }
         },
         (err) => {}

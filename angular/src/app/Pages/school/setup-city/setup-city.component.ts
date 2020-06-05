@@ -114,6 +114,8 @@ export class SetupCityComponent implements OnInit {
       (result) => {
         if (result.indicator === "success") {
           this.cities = result.city;
+        } else {
+          this.cities = [];
         }
       },
       (err) => {}

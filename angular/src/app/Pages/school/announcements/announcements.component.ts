@@ -144,6 +144,8 @@ export class AnnouncementsComponent implements OnInit {
         (result) => {
           if (result.indicator === "success") {
             this.announcementResp = result.announcement;
+          } else {
+            this.announcementResp = [];
           }
         },
         () => {}

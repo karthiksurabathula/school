@@ -68,6 +68,8 @@ export class PeriodTimetableStaffComponent implements OnInit {
         (result) => {
           if (result.indicator === "success") {
             this.timeTable = result.timeTable;
+          } else {
+            this.timeTable = [];
           }
         },
         (err) => {}

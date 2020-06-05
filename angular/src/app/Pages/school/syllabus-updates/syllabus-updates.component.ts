@@ -211,7 +211,6 @@ export class SyllabusUpdatesComponent implements OnInit {
             if (this.percentage == 0) {
               this.percentage = null;
             }
-            console.log(this.syllabus);
           }
         },
         (err) => {}

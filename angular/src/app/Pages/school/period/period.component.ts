@@ -206,6 +206,8 @@ export class PeriodComponent implements OnInit {
         (result) => {
           if (result.indicator === "success") {
             this.periods = result.period;
+          } else {
+            this.periods = [];
           }
         },
         (err) => {}

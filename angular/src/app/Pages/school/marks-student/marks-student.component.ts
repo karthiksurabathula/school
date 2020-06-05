@@ -208,6 +208,8 @@ export class MarksStudentComponent implements OnInit {
         (result) => {
           if (result.indicator === "success") {
             this.marksTrackerResp = result.data;
+          } else {
+            this.marksTrackerResp = [];
           }
         },
         () => {}
@@ -226,6 +228,8 @@ export class MarksStudentComponent implements OnInit {
         (result) => {
           if (result.indicator === "success") {
             this.studentMarks = result.data;
+          } else {
+            this.studentMarks = [];
           }
         },
         () => {}

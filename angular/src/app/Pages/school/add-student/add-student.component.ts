@@ -497,6 +497,8 @@ export class AddStudentComponent implements OnInit {
           if (result.indicator === "success") {
             this.students = [];
             this.students = result.student;
+          } else {
+            this.students = [];
           }
         },
         (err) => {}

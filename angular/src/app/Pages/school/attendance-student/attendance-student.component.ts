@@ -133,6 +133,8 @@ export class AttendanceStudentComponent implements OnInit {
               this.ceClassName = result.data[0].class.className;
               this.ceSectionName = result.data[0].section.sectionName;
             }
+          } else {
+            this.data = [];
           }
         },
         (err) => {}
@@ -156,6 +158,8 @@ export class AttendanceStudentComponent implements OnInit {
               this.ceClassName = result.data[0].class.className;
               this.ceSectionName = result.data[0].section.sectionName;
             }
+          } else {
+            this.data = [];
           }
         },
         (err) => {}
