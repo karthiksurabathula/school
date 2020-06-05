@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: springboot
-        image: karthiksurabathula/springboot:1
+        image: karthiksurabathula/springboot:school
         resources:
           limits:
             memory: 1Gi
@@ -58,17 +58,18 @@ spec:
           persistentVolumeClaim:
             claimName: springboot-pvc
 
-#---
-#
-#apiVersion: v1
-#kind: Service
-#metadata:
-#  name: springboot
-#spec:
-#  selector:
-#    app: springboot
-#  ports:
-#    - name: http
-#      port: 8082
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: springboot
+spec:
+  selector:
+    app: springboot
+  ports:
+    - name: http
+      port: 8082
 #      nodePort: 30081
+  type: ClusterIP
 #  type: NodePort

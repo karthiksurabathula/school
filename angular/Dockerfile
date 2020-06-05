@@ -1,5 +1,5 @@
-# docker build -t karthiksurabathula/httpd:1 .
-FROM httpd:alpine
+# docker build -t karthiksurabathula/httpd:latest .
+FROM httpd:2.4.43-alpine
 RUN apk --no-cache add curl
 # Remove any files that may be in the public htdocs directory already.
 RUN rm -r /usr/local/apache2/htdocs/*

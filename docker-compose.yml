@@ -4,7 +4,7 @@ services:
 
   #Apache
   angular:
-    image: karthiksurabathula/httpd:1
+    image: karthiksurabathula/httpd:school
     container_name: httpd
     volumes:
       - E:/kube/school/httpd:/usr/local/apache2/logs
@@ -18,7 +18,7 @@ services:
   
   #Java
   springboot:
-    image: karthiksurabathula/springboot:1
+    image: karthiksurabathula/springboot:school
     container_name: spring-boot
     volumes:
       - E:/kube/school/springboot:/usr/app/logs
@@ -39,7 +39,7 @@ services:
       - spring-boot-mysql-network
   #DB
   mysql:
-    image: mysql:latest
+    image: mysql:8.0.20
     container_name: mysql
     restart: always
     environment:
