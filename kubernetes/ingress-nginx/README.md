@@ -12,9 +12,9 @@ Once Application is installed follow instructions below
 
 Install Helm packate manager on the your host.
 
-helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-helm repo update
-helm install controller ingress-nginx/ingress-nginx
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx  
+helm repo update  
+helm install controller ingress-nginx/ingress-nginx  
 
-kubectl apply -f ingress-tls-secret.yaml
+kubectl apply -f ingress-tls-secret.yaml  
 kubectl apply -f ingress.yaml
