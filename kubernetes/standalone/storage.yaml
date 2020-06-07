@@ -1,0 +1,103 @@
+#
+###MYSQL
+#
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pvc
+  namespace: school
+spec:
+  storageClassName: local-storage-mysql
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+      
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-storage
+  namespace: school
+spec:
+  storageClassName: local-storage-mysql
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  #If you are using Docker desptop for windows you need to add the below path to Resource-->Filesharing == E:\kube\kubernetes\mysql
+  hostPath:
+    path: /host_mnt/E/kube/kubernetes/mysql/
+    type: DirectoryOrCreate
+
+---
+#
+###Spring Boot
+#
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: springboot-pvc
+  namespace: school
+spec:
+  storageClassName: local-storage-springboot
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 512Mi
+      
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-storage-springboot
+  namespace: school
+spec:
+  storageClassName: local-storage-springboot
+  capacity:
+    storage: 512Mi
+  accessModes:
+    - ReadWriteOnce
+  #If you are using Docker desptop for windows you need to add the below path to Resource-->Filesharing == E:\kube\kubernetes\springboot
+  hostPath:
+    path: /host_mnt/E/kube/kubernetes/springboot/
+    type: DirectoryOrCreate
+
+---
+#
+###httpd
+#
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: httpd-pvc
+  namespace: school
+spec:
+  storageClassName: local-storage-httpd
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 512Mi
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-storage-httpd
+  namespace: school
+spec:
+  storageClassName: local-storage-httpd
+  capacity:
+    storage: 512Mi
+  accessModes:
+    - ReadWriteOnce
+  #If you are using Docker desptop for windows you need to add the below path to Resource-->Filesharing == E:\kube\kubernetes\springboot
+  hostPath:
+    path: /host_mnt/E/kube/kubernetes/httpd/
+    type: DirectoryOrCreate

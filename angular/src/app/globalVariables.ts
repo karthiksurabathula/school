@@ -8,8 +8,8 @@ export class GlobalVariables {
 
   public static get baseURL(): string {
     return (
-      "http://" + window.location.hostname + ":" + window.location.port + "/"
-      // "http://" + window.location.hostname + ":" + 8082 + "/"
+      window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/"
+      // window.location.protocol + "//" + window.location.hostname + ":" + 8082 + "/"
     );
   }
 }
