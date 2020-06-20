@@ -1,0 +1,215 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: haproxy
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: haproxy-ingress-service-account
+  namespace: haproxy
+
+---
+
+apiVersion: v1
+data:
+  tls.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUZaVENDQTAyZ0F3SUJBZ0lVQkxBL0F4akwxWVV3OHZ4OU8zb1RCYXJQQmY0d0RRWUpLb1pJaHZjTkFRRUwKQlFBd1FqRUxNQWtHQTFVRUJoTUNXRmd4RlRBVEJnTlZCQWNNREVSbFptRjFiSFFnUTJsMGVURWNNQm9HQTFVRQpDZ3dUUkdWbVlYVnNkQ0JEYjIxd1lXNTVJRXgwWkRBZUZ3MHlNREEyTURjeU1UTTVNalJhRncweU1UQTJNRGN5Ck1UTTVNalJhTUVJeEN6QUpCZ05WQkFZVEFsaFlNUlV3RXdZRFZRUUhEQXhFWldaaGRXeDBJRU5wZEhreEhEQWEKQmdOVkJBb01FMFJsWm1GMWJIUWdRMjl0Y0dGdWVTQk1kR1F3Z2dJaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQwpEd0F3Z2dJS0FvSUNBUUM1VndNUExrRU5mWDFxZVhMakhPeUdCTUt3MW1nSDNJYUI1TE5tZ0c4MHBMQ0hOSTgvCnpwdlB0WS9Vc0RzelNlZjlmTStkdzBXZTFIT2JGTmhNMnFrenFEM1A4NERIbmhUZ2djbzRoWmJOcis4bzd5Y0YKbDNkTmo4LzdXUU1sZGNQVmZzVFJ4OGI5Z0tJOExJMmgrVkxVdTNiQTdKR0NqRUxVMEZReVhMbXFZdHk3bHF3bAo4cGphTDhLMzhsWE5jVFZ0MkRxQlVzVjlYNExQVVFySmZRaXFkSkJaaTdicTllYnhhTEpYMFdGdC9wemRIZE9TCkZOREJpQ3pSbjZDcWJRUkNHM29PbmhUY21GOVJMRXQ1ZDZZT0tld0lJRmpXRVppRkhUQmthcVlkUThWNVFSNWsKMW8zNzBxcEFBQ3hJQnBTdUVvMEZZaXZJbHl5QnU5WDdsU2EzTi9EUkJtOVRVOE1vME9YWUlUQ05KSzBRZzZ0Vgo4U3ZnZlFIa001QVg0d3g5TnErN1VkdzVqWFRjWmVDZHZRbW8yWFRUeTd4S2xNcXZKNmYveExBWTBEQStGVklyCnVRVjBuZ2dMNDZVcVNKdkRiTlBIeVRjbll5bzRtb1dsR3B1TlEvc0RBN0ZQQks4c1lTMHBIbDNvUjRZbzlMalgKdCszMWFnY3RXN001Q0V2MFdIZVBQSHZLbkVYRnh6a1hxWlc4T3RCYXFwR0drZXRzUWd5ZUhDblhpejRyTWJJdQpiQ3A1TTRZNDlrd0VCcmMxeEs2cHlKeWZXdHI1aDFGTURiMkExMlFHQUxnTGV6QmFmOENtaDltYlNTZU9sRkpsClQ3anRxdmU5ZTdHQmpHTXBKOURENkZFclJjZkVwWWUyZWtCUFpUSnVGZ1Z3bUJ1VUJXR1A3eG9JOXdJREFRQUIKbzFNd1VUQWRCZ05WSFE0RUZnUVVDNUZIOE1neDlMZXczbktveVUveThSNGhxdGt3SHdZRFZSMGpCQmd3Rm9BVQpDNUZIOE1neDlMZXczbktveVUveThSNGhxdGt3RHdZRFZSMFRBUUgvQkFVd0F3RUIvekFOQmdrcWhraUc5dzBCCkFRc0ZBQU9DQWdFQVFjdDNhKytmcml1aFBabUtqV2xFcmd4Z1VaWWM1bmxBaDJPOFRUa0cybmlGR1p1MVM3K2oKTTNZVUYrNVBWR05UdlFJYWo5WWdqVUFIWnJSMDdjWkkybVBXOW9XR2pLa1BWYUhFekFlZGlzOG1CczJZNG90QgpsVVhMUVdsSUcxc2tveWpwSS9ydnZYK2s2R08wcml6Nkw0UlFkUWxKTTN4SGhyTnV5eDhjZ0RTbXVXeVpDbmp5CnI5alV1TndRK2FhUWhVVm1HY29KYjQ1VFIyOHE5WjFzMWsvYU9oUzJtUmhKeFlWY0I5VWx0UmFOdDcya1FIcGQKQXFqeXoycGJxNFFrM0ZmTlBvTXRlSWx5UXV2S3YvYVlBWjNEaEpqeDZPeVRiRTdUcDh3ZjE3VUsyUDVrWkt1MQpEYnNNUm9qMjRFY3BjVzQwa2x0aWJpUW5mYjl4UzZHVzY3aEZhZXcvMWRKbFJ6WHZidUJnem5FSmpiNVJSZFkxCkJ5SGoxNFUxMWpMMzdnZUsrV1F3TVUvSk5IY0RhYlNjUGQyU2xrVTFYNUpXWVNOR3JvbFk5dStITjZySDhNbFoKZExqYStpRzRYYVBYcWY4eVhIN2UvSnNVaHppQjNlK2dYYWJoTU9WbWdUSkZXUU5DQWd3YWV4TjVjUm5SZ0w2cApFdnFzQ011N3ZudlZ3OEdoTXRJT2RPemhrMSt2bFZaLzA4MkI2b2d5OWhhNVl1MndZV0Vna0ozRFpYblRkaWtWCkdVcGpFK3NJNVZhblJ4Zy9mY3l0L1RLNk1KbGhkdmQ5L2syT2ZaNGNuT0tZTy9tSkJGdTgwMXRwd01XTy9uVnAKWUpNRUg3SXhyVWxKMDA0WUtWNTlkaWtOQWt0eW5xSkVGOTN2LzFlbWNjNTFwSXNsWUpNRTVWYz0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
+  tls.key: LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1JSUpRd0lCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQ1Mwd2dna3BBZ0VBQW9JQ0FRQzVWd01QTGtFTmZYMXEKZVhMakhPeUdCTUt3MW1nSDNJYUI1TE5tZ0c4MHBMQ0hOSTgvenB2UHRZL1VzRHN6U2VmOWZNK2R3MFdlMUhPYgpGTmhNMnFrenFEM1A4NERIbmhUZ2djbzRoWmJOcis4bzd5Y0ZsM2ROajgvN1dRTWxkY1BWZnNUUng4YjlnS0k4CkxJMmgrVkxVdTNiQTdKR0NqRUxVMEZReVhMbXFZdHk3bHF3bDhwamFMOEszOGxYTmNUVnQyRHFCVXNWOVg0TFAKVVFySmZRaXFkSkJaaTdicTllYnhhTEpYMFdGdC9wemRIZE9TRk5EQmlDelJuNkNxYlFSQ0czb09uaFRjbUY5UgpMRXQ1ZDZZT0tld0lJRmpXRVppRkhUQmthcVlkUThWNVFSNWsxbzM3MHFwQUFDeElCcFN1RW8wRllpdklseXlCCnU5WDdsU2EzTi9EUkJtOVRVOE1vME9YWUlUQ05KSzBRZzZ0VjhTdmdmUUhrTTVBWDR3eDlOcSs3VWR3NWpYVGMKWmVDZHZRbW8yWFRUeTd4S2xNcXZKNmYveExBWTBEQStGVklydVFWMG5nZ0w0NlVxU0p2RGJOUEh5VGNuWXlvNAptb1dsR3B1TlEvc0RBN0ZQQks4c1lTMHBIbDNvUjRZbzlMalh0KzMxYWdjdFc3TTVDRXYwV0hlUFBIdktuRVhGCnh6a1hxWlc4T3RCYXFwR0drZXRzUWd5ZUhDblhpejRyTWJJdWJDcDVNNFk0OWt3RUJyYzF4SzZweUp5Zld0cjUKaDFGTURiMkExMlFHQUxnTGV6QmFmOENtaDltYlNTZU9sRkpsVDdqdHF2ZTllN0dCakdNcEo5REQ2RkVyUmNmRQpwWWUyZWtCUFpUSnVGZ1Z3bUJ1VUJXR1A3eG9JOXdJREFRQUJBb0lDQVFDc24wNUtKVnFScGYvWjI2UVZ4Q3JICjZFY3RUWVUzVFQ0NlhUaDZqOFVEMHlCWHpheGVVYUR0cEwyQjYySTRNdTNRT3g5a1lTdkc4emw1aDhDdVZEcWoKMGw5QUFCeEIwQXJCMENENDQvUEJQOHdRNUM0RUZ6OFhEb3M0SDMrK3RDRGlDR0Jvd3htam90dDRFRWNhUlkzUQpkWW4xeG1FQXBvTFlrL0RYdDJWMlBQNDUrZXY4ckNlUmtFcGI2V25oSDBBVVB3Qyswc2orTEtjNVVOSXJPRG1LCkNXY28vK2d1anptNlB6bGNjYmU5S3hnUEdtaWo5cDg0b2d5Y2NZRERPeVpzTEF0UzhnbWNMSThhbTVid1czQmUKWU0xbUJEcTVwMG5YTVlpUS9vUVpYYlhmYWJkVlZFQ0orM3gyZjdLK291SjMvdTg1eEdYalBtcEZxeDF5WlVqWQpaT0ppVmhiSytzbndrbGYxZFoyVTFnMkI3cFRZQjZmV21QbDdBMjVyVHFnNmEzWmllaXpLNHVjdW1BL3RhUnFoCjdXWnliNFFGSFZKSC9DOWdpNHU3RTdqU0JVZ1l5N2xiOFZaK0lnVkJYZE9hd0lJZTJTdk5tS1I5TEtrVjd4R28KV045TkpSQ2ZBUmhGcE85WnVJOTBSOGZJd0dleC9wK1Rvejl5Q3BML2pSUGl4VVNMeFFjVmhQMmlPWXNBdURFQQpzd3prTk5IbHFPWmpjdFBBNmsxdVlMWFBwZFFJUmFaUVlhUFZnc0VzM3lGbDhWRUdIM1lmdnhGOUpqNzdhdFMwCitrTktyTnRZOUprcFJ2aTQySkV4WlJTQXRYU2RvWVlCV0NyWGZtS0pvUzM2M3BGL2g0MS9qQ0dEalk2RmNFSzMKQXMySmJYSWJUR1dMZFkzNEV3alBnUUtDQVFFQTlGRm5DZzk3MmVqZ2ptd2czdmdxRUN1eUhuRzdySDUrU3JKRQpYZ21QUy9nWndrNjNjOGZSS3pMdGhkRUtNdUFuOWx6cVlrR1dwNDJ2Z3BhRncyYkRMeG9IMjh0MExtR3EyR1JqCnRFMDQ4b3FPZ29PeURqbC82cWp5QTRkdFhrWCs4VWxocnN5bGtzcjhEK2EvVWRqVktJbURKb2hzMEhTc1RwTDcKUGRhYncxNnh3djl0aDhHQlEyejdpQW9QdGJjTlFlU2lXOTJMWkVULzBPT3o1TzBXYzBDVWh6T0tpZUkyQnl4aQoxdTdEMDJ6N1B6VDQ5ek1Ic1FmQ0hsVmJtMjQvU0Y4dCtRREt5cGFuRTJ1M1lSVDM3cXF4QkhRanBSaWZiTXdrCi9nUFl3YUNmUHQzZDJFcnBKZWs3cjJQcTZwM1Fic0orR29jMnpzQ2dkY29PbzNvZE93S0NBUUVBd2pPdXV6N2oKcnFSOEZFVyt0Nk9CN3JkYWhSSWVOV0RUWlpQclJYdFZJazMrQzdHdXBNYS9heHRHY3RLT1p1WW5BSE1iTFlkZApzV3NDWndpaDgvTFBiS21kUEpJUXhmTkdFZTBBM0RBaTJIN2lqOTdSR204N2FsWmZSM0wzak8xaFVjb1pCcWpzCk5LbVVQeEdzNzdYd2R4eEFUMzdyTGY0MVRNTVdYR0dTTW1STmFvODEvNGxCdHJZaVpBa0I1bC8wYUZLZ1dDT1kKOWVkVCtrb01ZUzhZaVpSTk5MWnBRdzB2bk4ycU5Zd29ZSmVUNUZTZVM1K3VZOE9IczFuZ2thVjhKUFh0R1p0eQpqRW5iU0RqQVgvY2dFcGhhaUx1ZVBsOTR1aUJrQzF2a3hGcHBIRjJJd0M4SENISVkxZHEwODhsQVZQZVJ5a0gvClIwNGFDQ01vVDlrM2RRS0NBUUVBemlFRDIwUVhEVkhpYTZjazBKbjErekN5bGVjRkhWS1h3UFBJcE1KU0NSbG8KdWp4cG9TQ2NCR055YksxaWVtd09xMWZYVkZEY0I3K05yWkxMaG9IaitaQnZ3dXhUdUhJa2oyK2JnMXFIeW5KRwpMQzFxZzMvVndha0tqeG1xbDVoY3NUeGxVdkpNVzU0d3JrWFRjdjJMVWlrNjRyN0ZkOWFJTGI3cWhGRFZtQzhECnNXNkovYml3RTdBV1E3K2hZNEh1aUlLYXpRRU5BdXNJSGppTzVYMTJySVIzQzk3YmF0dlZFNVpLU2VhbWgzSHkKUkhDd0FQZ243QitNa3NVWGhmcXRINlZXQnppNDM5WGRYcEJKNW5tbmVOREFpdTVseUh3T3ZkODY4cWxTTG9NUworQnArZW1jeGNBL29rR0N2cVlTK2YwUk8ycGpzRCtJTFAzWGJoZWVZVXdLQ0FRQkRsU2JPcE9FcFNyYWZlM0lXCmlFRlVhTnlJaUxpWWpOeWtjZWlqWW50TEYrYzcvSmF4WXpVRU9oYTNLTTFEdy81NHFwWWZyd2NORWhkZzhlRWkKZXpKeU4waXY1b2tOeWs1dE9KUmZEQ1ZrUUN2cU0zbURnSWdseG04YjkwZHM5TU0wYW1keEtPSWlwWTBnc2E4RQpNTVhCUGNTbnBaeUVnZjNjZTl2UlJHZFRRQktzN2ErMkFQY3NkWS9jVGtJcUFPU1dWWUxWaVhYV3hhMDA0Z1lTCjRBZmpBUWdwT3YzQXh0cjE5VElodG1mcXpYVTdOYk5zeitJcGQ4ZEd4QlZodWp4TXhJVEJyNVlhZWkxa29kTlkKMGpDSUtCc0JrSUZPWlgwbkVOU2dHMWV1ZVdRdzZlQUlPWlZ4Ky9ybW1WajFxZWpJYU91RWZwa3ZJRi93eXdOaApYazl0QW9JQkFFUnp3ODBkRm1HSmkvbThoQ3VTZGVCMm1BMkNkUGN1Q0Y4WEZLeW9ZcFJTUWMwQlVkdkNMT2R0ClhkdHYvL1IyY21lVGNUVDFXZVRUUVI5WUh4MGIvZkxmQWJza2U4aDBQckxYV2oxZFFGY1hlKzNRNHhqY1JyQmEKbDFwTG5iUklOVDhnSzVLaUdFNkhRZE1iL09JNzRPcFRvTEJpN0RGNE1VUWlPcmRXZ3JTMHU5YS8vMGt2ZVdXRwpZa2dhc2ZCeXdrM2hGZDlhUXRHOFlWb3JqM3ZlY0piVUE0UStEOE9JNm55VGFGZ29TVFQ4MC8vd2RtTGdJa3A2CmxpK2VHL1ptNW5VcW1LQjNtUWpoQktQLzJDN0YrSG53ai9FVS9KQUJJbnBsMU5JSzRrb2xxV0lNeHg0cndnQlYKNWRET2NjWXZRNm1MYWVnQWxPSW9Yb2tuQnY4NnBsND0KLS0tLS1FTkQgUFJJVkFURSBLRVktLS0tLQo=
+kind: Secret
+metadata:
+  name: tls-secret
+  namespace: haproxy
+type: kubernetes.io/tls
+
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: haproxy-ingress-cluster-role
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  - endpoints
+  - nodes
+  - pods
+  - services
+  - namespaces
+  - events
+  - serviceaccounts
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - "extensions"
+  resources:
+  - ingresses
+  - ingresses/status
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - patch
+  - update
+- apiGroups:
+  - extensions
+  resources:
+  - ingresses
+  verbs:
+  - get
+  - list
+  - watch
+
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: haproxy-ingress-cluster-role-binding
+  namespace: haproxy
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: haproxy-ingress-cluster-role
+subjects:
+- kind: ServiceAccount
+  name: haproxy-ingress-service-account
+  namespace: haproxy
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: haproxy
+  namespace: haproxy
+data:
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: ingress-default-backend
+  name: ingress-default-backend
+  namespace: haproxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: ingress-default-backend
+  template:
+    metadata:
+      labels:
+        run: ingress-default-backend
+    spec:
+      containers:
+      - name: ingress-default-backend
+        image: gcr.io/google_containers/defaultbackend:1.0
+        ports:
+        - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: ingress-default-backend
+  name: ingress-default-backend
+  namespace: haproxy
+spec:
+  selector:
+    run: ingress-default-backend
+  ports:
+  - name: port-1
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: haproxy-ingress
+  name: haproxy-ingress
+  namespace: haproxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: haproxy-ingress
+  template:
+    metadata:
+      labels:
+        run: haproxy-ingress
+    spec:
+      serviceAccountName: haproxy-ingress-service-account
+      containers:
+      - name: haproxy-ingress
+        image: haproxytech/kubernetes-ingress
+        args:
+          - --default-backend-service=haproxy/ingress-default-backend
+          - --reload-strategy=native
+          - --configmap=haproxy/haproxy
+        resources:
+          requests:
+            cpu: "500m"
+            memory: "50Mi"
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 1042
+        ports:
+        - name: http
+          containerPort: 80
+        - name: https
+          containerPort: 443
+        - name: stat
+          containerPort: 1024
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: haproxy-ingress
+  name: haproxy-ingress
+  namespace: haproxy
+spec:
+  selector:
+    run: haproxy-ingress
+  type: LoadBalancer
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: http
+  - name: https
+    port: 443
+    protocol: TCP
+    targetPort: https
+  - name: stat
+    port: 1024
+    protocol: TCP
+    targetPort: 1024
