@@ -1,5 +1,5 @@
 {
-  "name": "ng-uikit-pro-standard",
+  "name": "school",
   "version": "8.4.0",
   "scripts": {
     "ng": "ng",
@@ -52,7 +52,5 @@
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
     "typescript": "~3.5.3"
-  },
-  "//": "git+https://oauth2:REPLACE_WITH_YOUR_TOKEN@git.mdbootstrap.com/mdb/angular/ng-uikit-pro-standard.git",
-  "license": "Custom license"
+  }
 }
